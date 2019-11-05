@@ -1,0 +1,40 @@
+{
+  "trainers": [
+    {
+      "id": "fdnq34873etb-032i4c",
+      "full_name": "",
+      "first_name": "",
+      "age": 20,
+      "based_in": "Cluj-Napoca",
+      "coaches_in": {
+        "personally": ["Cluj-Napoca"],
+        "remotely": []
+      },
+      "languages_spoken": ["Romanian", "English"]
+    },
+    {
+      "id": "mnxcao38r-0jpor4w",
+      "full_name": "",
+      "first_name": "",
+      "age": 25,
+      "based_in": "Bucharest",
+      "coaches_in": {
+        "personally": ["Bucharest", "Cluj-Napoca"],
+        "remotely": ["Europe"]
+      },
+      "languages_spoken": ["Romanian", "English", "French"]
+    },
+    {
+      "id": "cei-324ncwug523245",
+      "full_name": "",
+      "first_name": "",
+      "age": 20,
+      "based_in": "Berlin",
+      "coaches_in": {
+        "personally": [],
+        "remotely": ["World"]
+      },
+      "languages_spoken": ["Deutsch", "English"]
+    }
+  ]
+}

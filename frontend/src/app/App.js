@@ -6,6 +6,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import NotFound from "./NotFound";
 import SearchPage from "./searchPage/SearchPage";
 
 function App() {
@@ -26,9 +27,10 @@ function App() {
           {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
           <Switch>
-            <Route path="/search">
+            <Route path="/search" exact>
               <SearchPage />
             </Route>
+            <Route component={NotFound}/>
             {/*<Route path="/">*/}
             {/*  <Home />*/}
             {/*</Route>*/}
