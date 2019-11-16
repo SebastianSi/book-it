@@ -1,8 +1,8 @@
 import React from 'react';
 
-const SearchListItem = () => (
+const SearchResultsListItem = () => (
     <div className='search-list-item'>
     </div>
 );
 
-export default SearchListItem;
+export default SearchResultsListItem;

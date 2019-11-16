@@ -1,0 +1,40 @@
+.search-list {
+    background: #000;
+}
+
+/*SearchContainer*/
+.ant-spin-container {
+    background: #000;
+}
+
+/*SearchResultListItemCard*/
+.ant-list-item-meta-description,
+.ant-list-item-main,
+.ant-list-item-action > li {
+    color: #fff
+}
+
+.ant-list-vertical .ant-list-item-main {
+    order: 1;
+}
+
+.ant-list-vertical .ant-list-item-extra {
+    margin: 25px 35px 5px;
+}
+
+/*SearchResultListFooter*/
+.ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link,
+.ant-pagination-item {
+    background: purple;
+    color: #fff;
+}
+
+.ant-pagination-item a {
+    color: #fff;
+}
+
+.ant-pagination-item-active, .ant-pagination-item-active:focus, .ant-pagination-item-active:hover {
+    outline: none;
+    border: 3px solid green;
+    color: green;
+}

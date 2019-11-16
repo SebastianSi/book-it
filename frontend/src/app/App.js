@@ -1,4 +1,5 @@
 import React from 'react';
+import 'antd/dist/antd.css';
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -12,7 +13,7 @@ import SearchPage from "./searchPage/SearchPage";
 function App() {
   return (
       <Router>
-        <div>
+        <div className='App'>
           <nav>
             <ul>
               <li>
