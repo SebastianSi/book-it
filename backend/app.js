@@ -8,6 +8,13 @@ const PORT = 5000;
 // Parse incoming requests data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+//CORS
+// app.use(function(req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     next();
+// });
 // get all todos
 app.get('/api/v1/todos', (req, res) => {
     res.status(200).send({
