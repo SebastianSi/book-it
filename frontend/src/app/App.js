@@ -11,15 +11,6 @@ import NotFound from "./NotFound";
 import SearchPage from "./searchPage/SearchPage";
 
 function App() {
-  const url = 'http://localhost:5000/api/v1/todos/';
-  fetch(url)
-      .then((resp) => resp.json())
-      .then(function(data) {
-        console.log(data);
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
   return (
       <Router>
         <div className='App'>
@@ -49,5 +40,4 @@ function App() {
       </Router>
   );
 }
-
 export default App;

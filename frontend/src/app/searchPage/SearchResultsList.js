@@ -1,38 +1,6 @@
-import React, { useEffect, useReducer } from 'react';
+import React, {useEffect, useState} from 'react';
 import { List, Icon } from 'antd';
 import TrainerDetailsModal from "./TrainerDetailsModal";
-
-
-const listData = [];
-for (let i = 0; i < 23; i++) {
-    listData.push({
-        href: 'http://ant.design',
-        title: `ant design part ${i}`,
-        avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-        description:
-            'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-        content:
-            'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-    });
-}
-
-function reducer(state, action) {
-    switch (action.type) {
-        case 'setModalOpen':
-            return {...state, isModalOpen: action.isModalOpen}
-        case 'setCandidates':
-            return {...state, candidates: action.candidates}
-        case 'setCurrCandidateId':
-            return {...state, currentCandidateId: action.id}
-        case 'updateCandidateData':
-            const newState = state
-            const currCandidateIndex = state.candidates.findIndex(x => x.id === state.currentCandidateId)
-            newState.candidates[currCandidateIndex] = {...newState.candidates[currCandidateIndex], ...action.data}
-            return newState
-        default:
-            return state
-    }
-}
 
 const IconText = ({ type, text }) => (
     <span>
@@ -41,27 +9,24 @@ const IconText = ({ type, text }) => (
   </span>
 );
 
-const SearchResultsList = () => {
-    const [state, dispatch] = useReducer(reducer, {
-        isModalOpen: false,
-        candidates: [],
-        currentCandidateId: 0
-    });
+const SearchResultsList = (props) => {
 
-    useEffect(() => {
-        console.log("783457843587")
-        // fetchCandidates()
-    }, []);
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [currentCandidateId, setCurrCandidateId] = useState(333);
     const toggleOpenCandidateDialog = (shouldOpen, candidateId) => {
-        shouldOpen && dispatch({type: 'setCurrCandidateId', id: candidateId});
-        dispatch({type: 'setModalOpen', isModalOpen: shouldOpen})
+        shouldOpen && setCurrCandidateId(candidateId);
+        setIsModalOpen(shouldOpen)
     };
+    useEffect(() => {
+        // Update the document title using the browser API
+        console.log('Did Mount')
+    }, [props.trainers]);
     return (
         <div className='search-list'>
-            {state.isModalOpen ?
+            {isModalOpen ?
                 <TrainerDetailsModal
-                    currentCandidateId={state.currentCandidateId}
+                    currentCandidateId={currentCandidateId}
                     goBack={() => {toggleOpenCandidateDialog(false)}}
                     // updateCandidateData={updateCandidateData}
                 /> :
@@ -75,7 +40,7 @@ const SearchResultsList = () => {
                         },
                         pageSize: 10,
                     }}
-                    dataSource={listData}
+                    dataSource={props.trainers}
                     footer={
                         <div>
                             <b>ant design</b> footer part
@@ -83,7 +48,7 @@ const SearchResultsList = () => {
                     }
                     renderItem={item => (
                         <List.Item
-                            key={item.title}
+                            key={item.id}
                             actions={[
                                 <IconText type="star-o" text="156" key="list-vertical-star-o"/>,
                                 <IconText type="like-o" text="156" key="list-vertical-like-o"/>,
@@ -98,11 +63,10 @@ const SearchResultsList = () => {
                             }
                         >
                             <List.Item.Meta
-                                // avatar={<Avatar src={item.avatar} />}
-                                title={<a href={item.href}>{item.title}</a>}
-                                description={item.description}
+                                title={<a href={item.href}>{item.title || item.full_name}</a>}
+                                description={item.description || 'Mock Description'}
                             />
-                            {item.content}
+                            {item.content || 'Mock Content Lorem ipsum dolor sit amet'}
                             <button style={{cursor: "pointer"}} onClick={() => {toggleOpenCandidateDialog(true)}}>Edit</button>
                             {/*<button style={{cursor: "pointer"}} onClick={() => {toggleOpenCandidateDialog(true, candidate.id)}}>Edit</button>*/}
                         </List.Item>

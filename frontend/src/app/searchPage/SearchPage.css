@@ -29,7 +29,7 @@
     color: #fff;
 }
 
-.ant-pagination-item a {
+.ant-pagination-item a, .ant-list-item-meta-title > a {
     color: #fff;
 }
 

@@ -10,35 +10,35 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 //CORS
-// app.use(function(req, res, next) {
-//     res.header("Access-Control-Allow-Origin", "*");
-//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//     next();
-// });
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 // get all todos
-app.get('/api/v1/todos', (req, res) => {
+app.get('/api/v1/trainers', (req, res) => {
     res.status(200).send({
         success: 'true',
-        message: 'todos retrieved successfully',
-        todos: db
+        message: 'trainers retrieved successfully',
+        data: db
     })
 });
 
-app.get('/api/v1/todos/:id', (req, res) => {
-    const id = parseInt(req.params.id, 10);
+app.get('/api/v1/trainers/:id', (req, res) => {
+    const id = req.params.id ;
 
-    let todoFromDb;
+    let trainerFromDb;
 
-    db.map((todo) => {
-        if (todo.id === id) {
-            todoFromDb = todo;
+    db.trainers.map((trainer) => {
+        if (trainer.id === id) {
+            trainerFromDb = trainer;
         }
     });
-    if (todoFromDb) {
+    if (trainerFromDb) {
         return res.status(200).send({
             success: 'true',
-            message: 'todo retrieved successfully',
-            todoFromDb,
+            message: 'trainerFromDb retrieved successfully',
+            trainerFromDb,
         });
     } else {
         return res.status(404).send({
@@ -48,28 +48,22 @@ app.get('/api/v1/todos/:id', (req, res) => {
     }
 });
 
-app.post('/api/v1/todos', (req, res) => {
-    if(!req.body.title) {
+app.post('/api/v1/trainers', (req, res) => {
+    if(!req.body.trainer) {
         return res.status(400).send({
             success: 'false',
-            message: 'title is required'
-        });
-    } else if(!req.body.description) {
-        return res.status(400).send({
-            success: 'false',
-            message: 'description is required'
+            message: 'trainer is required'
         });
     }
-    const todo = {
+    const trainer = {
         id: db.length + 1,
-        title: req.body.title,
-        description: req.body.description
+        trainer: req.body.trainer
     };
-    db.push(todo);
+    db.push(trainer);
     return res.status(201).send({
         success: 'true',
-        message: 'todo added successfully',
-        todo
+        message: 'trainer added successfully',
+        trainer
     });
 });
 

@@ -59,6 +59,7 @@ function TrainerDetailsModal(props) {
 
     return (
         <div style={{color: "#000", width: "100%", height: "100%"}}>
+            <h1></h1>
             <button onClick={props.goBack}>Cancel</button>
         </div>
     );
