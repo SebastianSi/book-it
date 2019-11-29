@@ -61,7 +61,7 @@ const SearchContainer = () => {
         // logDataFromServer(urlForOneTrainer,null, function(){});
     }
 
-    console.log('state: ', state);
+    // console.log('state: ', state);
     return (
         <div className='search-container'>
             <SearchHeader onHeaderSubmit={fetchAllTrainers}/>
