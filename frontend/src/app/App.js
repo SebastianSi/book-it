@@ -9,6 +9,8 @@ import {
 } from "react-router-dom";
 import NotFound from "./NotFound";
 import SearchPage from "./searchPage/SearchPage";
+import AddTrainer from "./loginRegisterPage/AddTrainer";
+import Dummy from "./loginRegisterPage/Dummy";
 
 function App() {
   return (
@@ -22,6 +24,12 @@ function App() {
               <li>
                 <Link to="/search">Search</Link>
               </li>
+              <li>
+                <Link to="/register_as_trainer">Add Trainer</Link>
+              </li>
+              <li>
+                <Link to="/dummy">Dummy</Link>
+              </li>
             </ul>
           </nav>
 
@@ -30,6 +38,10 @@ function App() {
           <Switch>
             <Route path="/search" exact>
               <SearchPage />
+            </Route>
+            <Route path="/register_as_trainer" exact component={AddTrainer} />
+            <Route path="/dummy">
+              <Dummy />
             </Route>
             <Route component={NotFound}/>
             {/*<Route path="/">*/}

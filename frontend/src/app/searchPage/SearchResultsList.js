@@ -13,20 +13,27 @@ const SearchResultsList = (props) => {
 
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [currentCandidateId, setCurrCandidateId] = useState(333);
-    const toggleOpenCandidateDialog = (shouldOpen, candidateId) => {
-        shouldOpen && setCurrCandidateId(candidateId);
+    const [currentTrainerId, setCurrentTrainerId] = useState(333);
+    const toggleOpenCandidateDialog = (shouldOpen) => {
         setIsModalOpen(shouldOpen)
     };
     useEffect(() => {
         // Update the document title using the browser API
-        console.log('Did Mount')
+        // console.log('Did Mount')
     }, [props.trainers]);
+    // console.log(props.trainers);
+
+    const handleItemClicked = (item) => {
+        console.log('item: ', item);
+        setCurrentTrainerId(item.id);
+        toggleOpenCandidateDialog(true)
+    };
+
     return (
         <div className='search-list'>
             {isModalOpen ?
                 <TrainerDetailsModal
-                    currentCandidateId={currentCandidateId}
+                    trainerId={currentTrainerId}
                     goBack={() => {toggleOpenCandidateDialog(false)}}
                     // updateCandidateData={updateCandidateData}
                 /> :
@@ -67,7 +74,7 @@ const SearchResultsList = (props) => {
                                 description={item.description || 'Mock Description'}
                             />
                             {item.content || 'Mock Content Lorem ipsum dolor sit amet'}
-                            <button style={{cursor: "pointer"}} onClick={() => {toggleOpenCandidateDialog(true)}}>Edit</button>
+                            <button style={{cursor: "pointer"}} onClick={() => handleItemClicked(item)}>See Trainer Details</button>
                             {/*<button style={{cursor: "pointer"}} onClick={() => {toggleOpenCandidateDialog(true, candidate.id)}}>Edit</button>*/}
                         </List.Item>
                     )}
