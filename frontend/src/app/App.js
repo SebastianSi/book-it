@@ -16,10 +16,10 @@ function App() {
   return (
       <Router>
         <div className='App'>
-          <nav>
-            <ul>
+          <nav className='main-header'>
+            <ul className='main-header-list'>
               <li>
-                <Link to="/">Home</Link>
+                <Link to="/" className={'active'}>Home</Link>
               </li>
               <li>
                 <Link to="/search">Search</Link>
@@ -52,4 +52,14 @@ function App() {
       </Router>
   );
 }
+
+window.addEventListener('load', toggleHeaderItemsActiveClass);
+
+function toggleHeaderItemsActiveClass() {
+
+  //TODO: fa-o din react, ca inca nu e nimic painted pe dom
+  const headerMenuItems = document.querySelector('main-header-list');
+  console.log(headerMenuItems);
+}
+
 export default App;

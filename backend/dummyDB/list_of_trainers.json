@@ -6,9 +6,13 @@
       "first_name": "Gica",
       "age": 20,
       "based_in": "Cluj-Napoca",
-      "coaches_in": {
-        "personally": ["Cluj-Napoca"],
-        "remotely": []
+      "services_offered": {
+        "personal_training": {
+          "locations": ["Cluj-Napoca"]
+        },
+        "nutrition_coaching": {
+          "locations": ["Cluj-Napoca"]
+        }
       },
       "languages_spoken": ["Romanian", "English"]
     },
@@ -18,9 +22,13 @@
       "first_name": "Andrei",
       "age": 25,
       "based_in": "Bucharest",
-      "coaches_in": {
-        "personally": ["Bucharest", "Cluj-Napoca"],
-        "remotely": ["Europe"]
+      "services_offered": {
+          "personal_training": {
+            "locations": ["Bucharest"]
+          },
+          "nutrition_coaching": {
+            "locations": ["Bucharest", "World"]
+          }
       },
       "languages_spoken": ["Romanian", "English", "French"]
     },
@@ -30,9 +38,10 @@
       "first_name": "Roxana Chiriches",
       "age": 20,
       "based_in": "Berlin",
-      "coaches_in": {
-        "personally": [],
-        "remotely": ["World"]
+      "services_offered": {
+        "nutrition_coaching": {
+          "locations": ["World"]
+        }
       },
       "languages_spoken": ["Deutsch", "English"]
     }

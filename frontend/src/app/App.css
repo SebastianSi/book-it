@@ -25,5 +25,38 @@ body{
 }
 
 .App-link {
-  color: #09d3ac;
+  /*color: #09d3ac;*/
+}
+
+.main-header {
+  background-color: black;
+  overflow: hidden;
+  color: #fff;
+}
+
+.main-header ul {
+  list-style: none;
+}
+
+.main-header ul li {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.main-header ul li a {
+  color: #fff;
+}
+
+.main-header ul li:hover {
+  background-color: #312f36;
+  color: black;
+}
+
+.main-header ul li.active {
+  background-color: purple;
+  color: white;
 }
