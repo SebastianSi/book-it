@@ -3,8 +3,8 @@
     {
       "id": "fdnq34873etb-032i4c",
       "full_name": "Gica Popescu",
-      "first_name": "Gica",
-      "age": 20,
+      "email": "gica.popescu855@gmail.com",
+      "birth_date": "11/15/1985",
       "based_in": "Cluj-Napoca",
       "services_offered": {
         "personal_training": {
@@ -19,8 +19,8 @@
     {
       "id": "mnxcao38r-0jpor4w",
       "full_name": "Andrei Ciobanu",
-      "first_name": "Andrei",
-      "age": 25,
+      "email": "andrei_ciobanu25@yahoo.com",
+      "birth_date": "5/7/1995",
       "based_in": "Bucharest",
       "services_offered": {
           "personal_training": {
@@ -35,8 +35,8 @@
     {
       "id": "cei-324ncwug523245",
       "full_name": "Roxana Chiriches",
-      "first_name": "Roxana Chiriches",
-      "age": 20,
+      "email": "roxana_chiriches97@gmail.com",
+      "birth_date": "9/27/1997",
       "based_in": "Berlin",
       "services_offered": {
         "nutrition_coaching": {

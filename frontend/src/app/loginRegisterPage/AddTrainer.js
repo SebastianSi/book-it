@@ -1,8 +1,4 @@
-
 import React from 'react';
-// import ReactDOM from 'react-dom';
-// import 'antd/dist/antd.css';
-// import './index.css';
 import {
     Form,
     Input,
@@ -55,7 +51,7 @@ const residences = [
     },
 ];
 
-class RegistrationForm extends React.Component {
+class RegisterAsTrainerForm extends React.Component {
     state = {
         confirmDirty: false,
         autoCompleteResult: [],
@@ -255,7 +251,7 @@ class RegistrationForm extends React.Component {
     }
 }
 
-const AddTrainer = Form.create({ name: 'register' })(RegistrationForm);
+const RegisterAsTrainer = Form.create({ name: 'register' })(RegisterAsTrainerForm);
 
-export default AddTrainer;
+export default RegisterAsTrainer;
           
