@@ -4,46 +4,34 @@
       "id": "fdnq34873etb-032i4c",
       "full_name": "Gica Popescu",
       "email": "gica.popescu855@gmail.com",
+      "phone_number": "+40741234567",
       "birth_date": "11/15/1985",
-      "based_in": "Cluj-Napoca",
-      "services_offered": {
-        "personal_training": {
-          "locations": ["Cluj-Napoca"]
-        },
-        "nutrition_coaching": {
-          "locations": ["Cluj-Napoca"]
-        }
-      },
-      "languages_spoken": ["Romanian", "English"]
+      "available_in": ["Cluj-Napoca"],
+      "services_offered": ["personal_training", "nutrition_coaching"],
+      "description": "Salut, sunt Gica si ofer servicii de personal training si asistenta nutritie in Cluj-Napoca",
+      "photo": "someString"
     },
     {
       "id": "mnxcao38r-0jpor4w",
       "full_name": "Andrei Ciobanu",
       "email": "andrei_ciobanu25@yahoo.com",
+      "phone_number": "+40755333666",
       "birth_date": "5/7/1995",
-      "based_in": "Bucharest",
-      "services_offered": {
-          "personal_training": {
-            "locations": ["Bucharest"]
-          },
-          "nutrition_coaching": {
-            "locations": ["Bucharest", "World"]
-          }
-      },
-      "languages_spoken": ["Romanian", "English", "French"]
+      "available_in": ["Bucuresti"],
+      "services_offered": ["personal_training", "nutrition_coaching"],
+      "description": "Buna, eu sunt Andrei si ofer servicii de PT si planuri nutritionale in Bucuresti",
+      "photo": "someString"
     },
     {
       "id": "cei-324ncwug523245",
       "full_name": "Roxana Chiriches",
       "email": "roxana_chiriches97@gmail.com",
+      "phone_number": "+40722775455",
       "birth_date": "9/27/1997",
-      "based_in": "Berlin",
-      "services_offered": {
-        "nutrition_coaching": {
-          "locations": ["World"]
-        }
-      },
-      "languages_spoken": ["Deutsch", "English"]
+      "available_in": ["Zalau"],
+      "services_offered": ["nutrition_coaching", "psichological_assistance"],
+      "description": "Hi, I'm Roxana and I specialize in psychologically asisting overweight individuals, but I also provide nutrition counceling",
+      "photo": "someString"
     }
   ]
 }

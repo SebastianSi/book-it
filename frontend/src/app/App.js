@@ -9,8 +9,8 @@ import {
 } from "react-router-dom";
 import NotFound from "./NotFound";
 import SearchPage from "./searchPage/SearchPage";
-import AddTrainer from "./loginRegisterPage/AddTrainer";
-import Dummy from "./loginRegisterPage/Dummy";
+import AddTrainer from "./RegisterTrainerPage/AddTrainer";
+import Dummy from "./RegisterTrainerPage/Dummy";
 
 function App() {
   return (
