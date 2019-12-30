@@ -1,10 +1,12 @@
 import React from 'react';
 import {
     Form,
+    Alert,
     Input,
     Tooltip,
     Icon,
     Cascader,
+    Divider,
     DatePicker,
     Select,
     Checkbox,
@@ -51,7 +53,8 @@ const possibleLocations = {
 
 class RegisterAsTrainerForm extends React.Component {
     state = {
-        otherServiceChecked: false
+        isOtherServiceChecked: false,
+        user: {}
     };
 
     handleSubmit = e => {
@@ -63,18 +66,74 @@ class RegisterAsTrainerForm extends React.Component {
         });
     };
 
-    onServicesOfferedChange = checkedValues => {
-        console.log('checked = ', checkedValues);
-        this.setState({
-            otherServiceChecked: checkedValues.includes('other')
-        })
+    handleInputChange = field => (e, extraData) => {
+
+        let {user} = this.state;
+        switch (field) {
+            case 'name':
+                this.setState({user: {...user, name: e.target.value}});
+                break;
+            case 'email':
+                this.setState({user: {...user, email: e.target.value}});
+                break;
+            case 'phone':
+                this.setState({user: {...user, phone: e.target.value}});
+                break;
+            case 'available_in':
+                this.setState({user: {...user, available_in: e}});
+                break;
+            case 'date_of_birth':
+                this.setState({user: {...user, date_of_birth: extraData}});
+                break;
+            case 'services_offered':
+                this.setState({
+                    user: {
+                        ...user,
+                        services_offered: e,
+                        isOtherServiceChecked: e.includes('other')
+                    }
+                })
+                break;
+            case 'other_service_offered':
+                this.setState({user: {...user, other_service_offered: e.target.value}});
+                break;
+            case 'about_you':
+                this.setState({user: {...user, about_you: e.target.value}});
+                break;
+            case 'photo':
+                //TODO:
+                this.setState({user: {...user, photo: e.target.value}});
+                break;
+            case 'agreement':
+                this.setState({user: {...user, agreement_checked: e.target.checked}});
+                break;
+            default:
+                console.log('Wait what?')
+        }
+    };
+
+    isRegisterPossible = () => {
+        //based on required fields state
+        let { user } = this.state;
+        return (
+            user.name && user.name.length &&
+            user.email && user.email.length && this.isCurrentEmailValid() &&
+            user.available_in && user.available_in.length &&
+            user.date_of_birth && user.date_of_birth.length &&
+            user.services_offered && user.services_offered.length &&
+            user.agreement_checked
+        )
     }
 
-    onHandleAvailableInChange = val => {
-        console.log(val);
+    //TODO: could move to utils, maybe
+    isCurrentEmailValid = () => {
+        let { user } = this.state;
+        let regex = /\S+@\S+\.\S+/;
+        return regex.test(user.email);
     }
 
     render() {
+        console.log(this.state);
         const { getFieldDecorator } = this.props.form;
 
         const formItemLayout = {
@@ -90,12 +149,12 @@ class RegisterAsTrainerForm extends React.Component {
         const tailFormItemLayout = {
             wrapperCol: {
                 xs: {
-                    span: 24,
+                    span: 12,
                     offset: 0,
                 },
                 sm: {
-                    span: 16,
-                    offset: 8,
+                    span: 12,
+                    offset: 6,
                 },
             },
         };
@@ -108,17 +167,35 @@ class RegisterAsTrainerForm extends React.Component {
         );
 
         return (
+
             <Form {...formItemLayout} onSubmit={this.handleSubmit}
-                  style={{background: 'white'}}>
+                  style={{background: 'white'}}
+                  labelCol={{span: 4}}
+            >
                 <Form.Item
-                    label={<span>Your name: </span>}
+                    {...tailFormItemLayout}
+                    style={{margin: '0 auto'}}
+
                 >
-                    {getFieldDecorator('nickname', {
-                        rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
-                    })(<Input />)}
+                    <br/>
+                    <p style={{fontSize: '1.2em', fontWeight: 500}}>
+                        In order to register as a trainer, please fill in the details below.
+                    </p>
+                </Form.Item>
+                <Divider/>
+                <Form.Item
+                    style={{margin: '0 auto'}}
+                    label="Your name"
+                >
+                    {getFieldDecorator('name', {
+                        rules: [{ required: true, message: 'Please input your full name!', whitespace: true }],
+                    })(<Input onChange={this.handleInputChange('name')} />)}
                 </Form.Item>
                 <br/>
-                <Form.Item label="E-mail">
+                <Form.Item
+                    style={{margin: '0 auto'}}
+                    label="E-mail"
+                >
                     {getFieldDecorator('email', {
                         rules: [
                             {
@@ -130,29 +207,35 @@ class RegisterAsTrainerForm extends React.Component {
                                 message: 'Please input your E-mail!',
                             },
                         ],
-                    })(<Input />)}
-                </Form.Item>
-                <Form.Item label="Phone Number">
-                    {getFieldDecorator('phone', {
-                        rules: [{ required: true, message: 'Please input your phone number!' }],
-                    })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
+                    })(<Input onChange={this.handleInputChange('email')}/>)}
                 </Form.Item>
                 <br/>
-                <Form.Item label={
-                    <>
-                    <span>Available In</span>
-                    <Tooltip title="Please only select the cities you can assist in">
-                    <Icon type="question-circle-o" />
-                    </Tooltip>
-                    </>
-                }
+                <Form.Item
+                    style={{margin: '0 auto'}}
+                    label="Phone Number"
+                >
+                    {getFieldDecorator('phone', {
+                        rules: [{ message: 'Please input your phone number!' }],
+                    })(<Input onChange={ e => console.log(e.target.value)} addonBefore={prefixSelector} style={{ width: '100%' }} />)}
+                </Form.Item>
+                <br/>
+                <Form.Item
+                    required
+                    style={{margin: '0 auto'}}
+                    label={
+                        <>
+                        <span>Available In</span>
+                        <Tooltip title="Please only select the cities you can assist in">
+                        <Icon type="question-circle-o" />
+                        </Tooltip>
+                        </>
+                    }
                 >
                     <Select
                         mode="multiple"
                         style={{ width: '100%' }}
                         placeholder="select at least a city"
-                        defaultValue={['Cluj-Napoca']}
-                        onChange={this.onHandleAvailableInChange}
+                        onChange={this.handleInputChange('available_in')}
                         optionLabelProp="label"
                     >
                         {
@@ -165,18 +248,28 @@ class RegisterAsTrainerForm extends React.Component {
                     </Select>
                 </Form.Item>
                 <br/>
-                <Form.Item label="Date of Birth: ">
+                <Form.Item
+                    required
+                    style={{margin: '0 auto'}}
+                    label="Date of Birth: "
+                >
                     <Form.Item style={{margin: "0 auto", float: "left"}}
-                        validateStatus="error"
+                        // validateStatus="error"
                         help="Please select the correct date"
                     >
-                        <DatePicker style={{float: "left"}}/>
+                        <DatePicker style={{float: "left"}}
+                                    onChange={this.handleInputChange('date_of_birth')}/>
                     </Form.Item>
                 </Form.Item>
                 <br/>
-                <Form.Item label="Services Offered: ">
+                <Form.Item
+                    required
+                    style={{margin: '0 auto'}}
+                    label="Services Offered: "
+                >
                     <Checkbox.Group style={{ width: '100%' }}
-                                    onChange={this.onServicesOfferedChange}>
+                                    onChange={this.handleInputChange('services_offered')}
+                    >
                         <Row style={{marginTop: 10, marginLeft: -25}}>
                             <Col span={6}>
                                 <Checkbox value="personal_training">
@@ -192,8 +285,8 @@ class RegisterAsTrainerForm extends React.Component {
                                 <Checkbox value="other">
                                     Other (please specify):
                                     {
-                                        this.state.otherServiceChecked &&
-                                            <Input />
+                                        this.state.isOtherServiceChecked &&
+                                            <Input onChange={this.handleInputChange('other_service_offered')}/>
                                     }
                                 </Checkbox>
                             </Col>
@@ -202,11 +295,17 @@ class RegisterAsTrainerForm extends React.Component {
                     </Checkbox.Group>
                 </Form.Item>
                 <br/>
-                <Form.Item label="About you: ">
-                    <TextArea rows={4} />
+                <Form.Item
+                    style={{margin: '0 auto'}}
+                    label="About you: "
+                >
+                    <TextArea onChange={this.handleInputChange('about_you')} rows={4} />
                 </Form.Item>
                 <br/>
-                <Form.Item label="Your Photo: ">
+                <Form.Item
+                    style={{margin: '0 auto'}}
+                    label="Your Photo: "
+                >
                     <Dragger {...draggerProps}>
                         <p className="ant-upload-drag-icon">
                             <Icon type="inbox" />
@@ -219,18 +318,24 @@ class RegisterAsTrainerForm extends React.Component {
                     </Dragger>
                 </Form.Item>
                 <br/>
-                <Form.Item {...tailFormItemLayout}>
+                <Form.Item {...tailFormItemLayout}
+                           style={{margin: '0 auto'}}
+                >
                     {getFieldDecorator('agreement', {
                         valuePropName: 'checked',
                     })(
-                        <Checkbox>
-                            I have read the <a href="">agreement</a>
+                        <Checkbox onChange={this.handleInputChange('agreement')}>
+                            I have read the GDPR <a href="">agreement</a>
                         </Checkbox>,
                     )}
                 </Form.Item>
                 <br/>
                 <Form.Item {...tailFormItemLayout}>
-                    <Button type="primary" htmlType="submit">
+                    <Button
+                        disabled={!this.isRegisterPossible()}
+                        type="primary"
+                        htmlType="submit"
+                    >
                         Register
                     </Button>
                 </Form.Item>
@@ -239,7 +344,10 @@ class RegisterAsTrainerForm extends React.Component {
     }
 }
 
-const RegisterAsTrainer = Form.create({ name: 'register' })(RegisterAsTrainerForm);
+const RegisterAsTrainer = Form.create({
+    name: 'add_trainer',
+
+})(RegisterAsTrainerForm);
 
 export default RegisterAsTrainer;
           
