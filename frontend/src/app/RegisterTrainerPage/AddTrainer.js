@@ -54,7 +54,7 @@ const possibleLocations = {
 class RegisterAsTrainerForm extends React.Component {
     state = {
         isOtherServiceChecked: false,
-        user: {}
+        trainer: {}
     };
 
     handleSubmit = e => {
@@ -68,68 +68,68 @@ class RegisterAsTrainerForm extends React.Component {
 
     handleInputChange = field => (e, extraData) => {
 
-        let {user} = this.state;
+        let {trainer} = this.state;
         switch (field) {
             case 'name':
-                this.setState({user: {...user, name: e.target.value}});
+                this.setState({trainer: {...trainer, name: e.target.value}});
                 break;
             case 'email':
-                this.setState({user: {...user, email: e.target.value}});
+                this.setState({trainer: {...trainer, email: e.target.value}});
                 break;
             case 'phone':
-                this.setState({user: {...user, phone: e.target.value}});
+                this.setState({trainer: {...trainer, phone: e.target.value}});
                 break;
             case 'available_in':
-                this.setState({user: {...user, available_in: e}});
+                this.setState({trainer: {...trainer, available_in: e}});
                 break;
             case 'date_of_birth':
-                this.setState({user: {...user, date_of_birth: extraData}});
+                this.setState({trainer: {...trainer, date_of_birth: extraData}});
                 break;
             case 'services_offered':
                 this.setState({
-                    user: {
-                        ...user,
+                    trainer: {
+                        ...trainer,
                         services_offered: e,
                         isOtherServiceChecked: e.includes('other')
                     }
                 })
                 break;
             case 'other_service_offered':
-                this.setState({user: {...user, other_service_offered: e.target.value}});
+                this.setState({trainer: {...trainer, other_service_offered: e.target.value}});
                 break;
-            case 'about_you':
-                this.setState({user: {...user, about_you: e.target.value}});
+            case 'description':
+                this.setState({trainer: {...trainer, description: e.target.value}});
                 break;
             case 'photo':
                 //TODO:
-                this.setState({user: {...user, photo: e.target.value}});
+                this.setState({trainer: {...trainer, photo: e.target.value}});
                 break;
             case 'agreement':
-                this.setState({user: {...user, agreement_checked: e.target.checked}});
+                this.setState({trainer: {...trainer, agreement_checked: e.target.checked}});
                 break;
             default:
-                console.log('Wait what?')
+                console.log('Not a valid Field!');
         }
     };
 
     isRegisterPossible = () => {
         //based on required fields state
-        let { user } = this.state;
+        let { trainer } = this.state;
         return (
-            user.name && user.name.length &&
-            user.email && user.email.length && this.isCurrentEmailValid() &&
-            user.available_in && user.available_in.length &&
-            user.date_of_birth && user.date_of_birth.length &&
-            user.services_offered && user.services_offered.length &&
-            user.agreement_checked
+            trainer.name && trainer.name.length &&
+            trainer.email && trainer.email.length && this.isCurrentEmailValid() &&
+            trainer.available_in && trainer.available_in.length &&
+            trainer.date_of_birth && trainer.date_of_birth.length &&
+            trainer.services_offered && trainer.services_offered.length &&
+            trainer.agreement_checked
         )
     }
 
     //TODO: could move to utils, maybe
     isCurrentEmailValid = () => {
-        let { user } = this.state;
+        let { trainer } = this.state;
         let regex = /\S+@\S+\.\S+/;
-        return regex.test(user.email);
+        return regex.test(trainer.email);
     }
 
     render() {
@@ -297,9 +297,9 @@ class RegisterAsTrainerForm extends React.Component {
                 <br/>
                 <Form.Item
                     style={{margin: '0 auto'}}
-                    label="About you: "
+                    label="Description"
                 >
-                    <TextArea onChange={this.handleInputChange('about_you')} rows={4} />
+                    <TextArea onChange={this.handleInputChange('description')} rows={4} />
                 </Form.Item>
                 <br/>
                 <Form.Item

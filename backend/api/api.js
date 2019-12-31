@@ -1,7 +1,16 @@
 import db from "../models/db";
+import models, { connectDb, closeDbConnection } from '../models';
 
 const setAppRoutes = function(app) {
 
+    //data from db
+    app.get('/api/v2/trainers', async (req, res) => {
+        console.log('GOT HERE!');
+        const trainers = await models.Trainer.find();
+        return res.send(trainers);
+    });
+
+    //local jsonfile
     app.get('/api/v1/trainers', (req, res) => {
         res.status(200).send({
             success: 'true',

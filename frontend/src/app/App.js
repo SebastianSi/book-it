@@ -12,8 +12,22 @@ import SearchPage from "./searchPage/SearchPage";
 import AddTrainer from "./RegisterTrainerPage/AddTrainer";
 import Dummy from "./RegisterTrainerPage/Dummy";
 
+function fetchTrainersFromDb() {
+    const url = 'http://localhost:5000/api/v2/trainers/';
+    fetch(url)
+        .then((resp) => resp.json())
+        .then(function(response) {
+            // let resp = response.data;
+            console.log('trainers from db: ', response)
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
+}
+
 function App() {
-  return (
+    fetchTrainersFromDb();
+    return (
       <Router>
         <div className='App'>
           <nav className='main-header'>
@@ -50,7 +64,7 @@ function App() {
           </Switch>
         </div>
       </Router>
-  );
+    );
 }
 
 window.addEventListener('load', toggleHeaderItemsActiveClass);
