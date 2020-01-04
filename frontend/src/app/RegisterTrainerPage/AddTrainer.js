@@ -49,7 +49,7 @@ const possibleLocations = {
             "Sfantu Gheorghe", "Barlad", "Vaslui", "Roman", "Slobozia", "Turda", "Medias", "Alexandria",
             "Voluntari", "Lugoj", "Medgidia", "Onesti", "Miercurea Ciuc", "Sighetu Marmatiei", "Petrosani"
         ]
-}
+};
 
 class RegisterAsTrainerForm extends React.Component {
     state = {
@@ -59,11 +59,32 @@ class RegisterAsTrainerForm extends React.Component {
 
     handleSubmit = e => {
         e.preventDefault();
-        this.props.form.validateFieldsAndScroll((err, values) => {
+        this.props.form.validateFieldsAndScroll((err) => {
             if (!err) {
-                console.log('Received values of form: ', values);
+                console.log('trainer in state: ', this.state.trainer);
+                let trainerForDb = this.state.trainer;
+                delete trainerForDb.agreement_checked;
+                this.saveTrainerInDb(trainerForDb);
             }
         });
+    };
+
+    saveTrainerInDb = trainer => {
+        const url = 'http://localhost:5000/api/v2/trainers/';
+        fetch(url, {
+            method: 'POST', // or 'PUT'
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(trainer),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
     };
 
     handleInputChange = field => (e, extraData) => {
@@ -86,13 +107,14 @@ class RegisterAsTrainerForm extends React.Component {
                 this.setState({trainer: {...trainer, date_of_birth: extraData}});
                 break;
             case 'services_offered':
+                console.log(e);
                 this.setState({
                     trainer: {
                         ...trainer,
                         services_offered: e,
-                        isOtherServiceChecked: e.includes('other')
-                    }
-                })
+                    },
+                    isOtherServiceChecked: e.includes('other')
+                });
                 break;
             case 'other_service_offered':
                 this.setState({trainer: {...trainer, other_service_offered: e.target.value}});
@@ -133,7 +155,7 @@ class RegisterAsTrainerForm extends React.Component {
     }
 
     render() {
-        console.log(this.state);
+        // console.log(this.state);
         const { getFieldDecorator } = this.props.form;
 
         const formItemLayout = {
