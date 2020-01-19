@@ -6,7 +6,8 @@ const trainerSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        unique: true,
+        unique: false,
+        sparse: true
     },
     full_name: {
         type: String,
@@ -14,7 +15,8 @@ const trainerSchema = new mongoose.Schema({
     },
     phone_number: {
         type: String,
-        unique: true,
+        unique: false,
+        sparse: true
     },
     birth_date: {
         type: String,
@@ -24,6 +26,16 @@ const trainerSchema = new mongoose.Schema({
         type: String,
         unique: false,
     },
+    services_offered: {
+        type: [String],
+    },
+    available_in: {
+        type: [String],
+    },
+    photo: {
+        type: String,
+        unique: false,
+    }
 });
 trainerSchema.statics.findAll = async function () {
     let trainers = await this.find();

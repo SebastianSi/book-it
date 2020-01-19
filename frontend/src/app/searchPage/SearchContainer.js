@@ -22,12 +22,13 @@ const SearchContainer = () => {
     });
 
     function fetchAllTrainers() {
-        const url = 'http://localhost:5000/api/v1/trainers/';
+        const url = 'http://localhost:5000/api/v2/trainers/';
         fetch(url)
             .then((resp) => resp.json())
             .then(function(response) {
-                let {trainers} = response.data;
-                dispatch({type: 'SET_TRAINERS', trainers});
+                // let {trainers} = response;
+                dispatch({type: 'SET_TRAINERS', trainers: response});
+                console.log(response);
             })
             .catch(function(error) {
                 console.log(error);

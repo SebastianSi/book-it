@@ -1,13 +1,39 @@
 import db from "../models/db";
 const cryptoRandomString = require('crypto-random-string');
 import models, { connectDb, closeDbConnection } from '../models';
+import mongoose from "mongoose";
 
 const setAppRoutes = function(app) {
 
     //data from db
     app.get('/api/v2/trainers', async (req, res) => {
+        // console.log('DROPPING DB...');
+        // mongoose.connection.dropDatabase();
+        console.log('retrieved all trainers');
         const trainers = await models.Trainer.find();
         return res.send(trainers);
+    });
+
+    app.get('/api/v2/trainers/:id', async (req, res) => {
+        // const id = req.params.id ;
+
+        // var query  = Kitten.where({ color: 'white' });
+
+        let trainerFromDb = await models.Trainer.findOne({ id: req.params.id });
+
+        if (trainerFromDb) {
+            console.log('retrieved trainer with id: ', req.params.id);
+            return res.status(200).send({
+                success: 'true',
+                message: 'trainerFromDb retrieved successfully',
+                trainerFromDb,
+            });
+        } else {
+            return res.status(404).send({
+                success: 'false',
+                message: 'trainer does not exist',
+            });
+        }
     });
 
     app.post('/api/v2/trainers', async (req, res) => {
@@ -19,7 +45,10 @@ const setAppRoutes = function(app) {
             full_name: req.body.name,
             phone_number: req.body.phone,
             birth_date: req.body.date_of_birth,
-            description: req.body.description
+            description: req.body.description,
+            photo: req.body.photo,
+            services_offered: req.body.services_offered,
+            available_in: req.body.available_in,
         });
 
         await trainerToPersist.save();

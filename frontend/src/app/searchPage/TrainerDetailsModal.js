@@ -10,7 +10,7 @@ function TrainerDetailsModal(props) {
         // let ignore = false;
 
         const fetchData = async () => {
-            const response = await fetch(`http://localhost:5000/api/v1/trainers/${props.trainerId}`);
+            const response = await fetch(`http://localhost:5000/api/v2/trainers/${props.trainerId}`);
             const myJson = await response.json();
             console.log(JSON.stringify(myJson));
             // return myJson.data;
@@ -64,5 +64,6 @@ function TrainerDetailsModal(props) {
 const modalBodyStyle = {
     height: '70vh'
 };
+
 export default TrainerDetailsModal;
 
