@@ -1,0 +1,19 @@
+
+.ant-modal-title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.ant-modal-content {
+    /*text-align: center;*/
+}
+
+.ant-descriptions-item > span {
+    display: flex;
+    justify-content: space-between;
+}
+
+.ant-card-body {
+    padding: 0;
+}

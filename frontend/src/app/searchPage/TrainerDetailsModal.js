@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from "react"
-import { Modal, Button } from 'antd';
+import { Modal, Button, Descriptions, Card } from 'antd';
+import './TrainerDetailsModal.css';
+const { Meta } = Card;
 
 function TrainerDetailsModal(props) {
 
@@ -7,23 +9,14 @@ function TrainerDetailsModal(props) {
     console.log(props);
 
     useEffect(() => {
-        // let ignore = false;
 
         const fetchData = async () => {
             const response = await fetch(`http://localhost:5000/api/v2/trainers/${props.trainerId}`);
             const myJson = await response.json();
-            console.log(JSON.stringify(myJson));
-            // return myJson.data;
-            // if (!ignore) setTrainerData(myJson.trainerFromDb);
             return myJson.trainerFromDb;
-
-            // const result = await axios('https://hn.algolia.com/api/v1/search?query=' + query);
-            // if (!ignore) setData(result.data);
         };
 
-        //warningul din consola se vede either way..
         fetchData().then( trainerDetailsResponse => setTrainerData(trainerDetailsResponse));
-        // return () => { ignore = true; }
     }, []);
 
 
@@ -50,13 +43,30 @@ function TrainerDetailsModal(props) {
                         Return
                     </Button>,
                     <Button key="submit" type="primary" loading={loading} onClick={handleOk}>
-                        Submit
+                        Show Contact Details
                     </Button>,
                 ]}
             >
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
+                <Descriptions column={1}>
+                    <Descriptions.Item>
+                        <span>
+                            {trainerData.description}
+                        </span>
+                        <Card
+                            // hoverable
+                            style={{ width: '40%', height: '30%' }}
+                            cover={<img alt="trainer photo" src={trainerData.photo} />}
+                        >
+                            {/*<Meta title="Europe Street beat" description="www.instagram.com" />*/}
+                        </Card>
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Telephone">1810000000</Descriptions.Item>
+                    <Descriptions.Item label="Live">Hangzhou, Zhejiang</Descriptions.Item>
+                    <Descriptions.Item label="Remark">empty</Descriptions.Item>
+                    <Descriptions.Item label="Address">
+                        No. 18, Wantang Road, Xihu District, Hangzhou, Zhejiang, China
+                    </Descriptions.Item>
+                </Descriptions>,
             </Modal>
     );
 }
