@@ -6,7 +6,7 @@ import {
     Input,
     Tooltip,
     Icon,
-    Cascader,
+    Radio,
     Divider,
     DatePicker,
     Select,
@@ -16,7 +16,8 @@ import {
     Button,
     AutoComplete,
     Upload,
-    message
+    message,
+    Result
 } from 'antd';
 
 const { Option } = Select;
@@ -42,6 +43,7 @@ const possibleLocations = {
 
 class RegisterAsTrainerForm extends React.Component {
     state = {
+        showResultSuccess: false,
         isOtherServiceChecked: false,
         trainer: {}
     };
@@ -74,6 +76,7 @@ class RegisterAsTrainerForm extends React.Component {
             .then((response) => response.json())
             .then((data) => {
                 console.log('Success:', data);
+                this.setState({showResultSuccess: true})
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -111,6 +114,9 @@ class RegisterAsTrainerForm extends React.Component {
                 break;
             case 'other_service_offered':
                 this.setState({trainer: {...trainer, other_service_offered: e.target.value}});
+                break;
+            case 'sex':
+                this.setState({trainer: {...trainer, sex: e.target.value}});
                 break;
             case 'description':
                 this.setState({trainer: {...trainer, description: e.target.value}});
@@ -198,196 +204,222 @@ class RegisterAsTrainerForm extends React.Component {
                     </p>
                 </Form.Item>
                 <Divider/>
-                <Form.Item
-                    style={{margin: '0 auto'}}
-                    label="Your name"
-                >
-                    {getFieldDecorator('name', {
-                        rules: [{ required: true, message: 'Please input your full name!', whitespace: true }],
-                    })(<Input onChange={this.handleInputChange('name')} />)}
-                </Form.Item>
-                <br/>
-                <Form.Item
-                    style={{margin: '0 auto'}}
-                    label="E-mail"
-                >
-                    {getFieldDecorator('email', {
-                        rules: [
-                            {
-                                type: 'email',
-                                message: 'The input is not valid E-mail!',
-                            },
-                            {
-                                required: true,
-                                message: 'Please input your E-mail!',
-                            },
-                        ],
-                    })(<Input onChange={this.handleInputChange('email')}/>)}
-                </Form.Item>
-                <br/>
-                <Form.Item
-                    style={{margin: '0 auto'}}
-                    label="Phone Number"
-                >
-                    {getFieldDecorator('phone', {
-                        rules: [{ message: 'Please input your phone number!' }],
-                    })(<Input onChange={ this.handleInputChange('phone')} addonBefore={prefixSelector} style={{ width: '100%' }} />)}
-                </Form.Item>
-                <br/>
-                <Form.Item
-                    required
-                    style={{margin: '0 auto'}}
-                    label={
+                {
+                    this.state.showResultSuccess ?
+                        <Result
+                            style={{background: 'white', height: 600}}
+                            status="success"
+                            title={`Successfully added trainer ${this.state.trainer.name}`}
+                        /> :
                         <>
-                        <span>Available In</span>
-                        <Tooltip title="Please only select the cities you can assist in">
-                        <Icon type="question-circle-o" />
-                        </Tooltip>
-                        </>
-                    }
-                >
-                    <Select
-                        mode="multiple"
-                        style={{ width: '100%' }}
-                        placeholder="select at least a city"
-                        onChange={this.handleInputChange('available_in')}
-                        optionLabelProp="label"
-                    >
-                        {
-                            possibleLocations.Romania.map( (city, i) => {
-                                return <Option key={i} value={city} label={city}>
-                                    {city}
-                                </Option>
-                            })
-                        }
-                    </Select>
-                </Form.Item>
-                <br/>
-                <Form.Item
-                    required
-                    style={{margin: '0 auto'}}
-                    label="Date of Birth: "
-                >
-                    <Form.Item style={{margin: "0 auto", float: "left"}}
-                        // validateStatus="error"
-                        help="Please select the correct date"
-                    >
-                        <DatePicker style={{float: "left"}}
-                                    onChange={this.handleInputChange('date_of_birth')}/>
-                    </Form.Item>
-                </Form.Item>
-                <br/>
-                <Form.Item
-                    required
-                    style={{margin: '0 auto'}}
-                    label="Services Offered: "
-                >
-                    <Checkbox.Group style={{ width: '100%' }}
-                                    onChange={this.handleInputChange('services_offered')}
-                    >
-                        <Row style={{marginTop: 10, marginLeft: -25}}>
-                            <Col span={6}>
-                                <Checkbox value="personal_training">
-                                    Personal Training
-                                </Checkbox>
-                            </Col>
-                            <Col span={6}>
-                                <Checkbox value="nutrition_coaching">
-                                    NutritionCoaching
-                                </Checkbox>
-                            </Col>
-                            <Col span={6}>
-                                <Checkbox value="other">
-                                    Other (please specify):
+                            <Form.Item
+                                style={{margin: '0 auto'}}
+                                label="Your name"
+                            >
+                                {getFieldDecorator('name', {
+                                    rules: [{ required: true, message: 'Please input your full name!', whitespace: true }],
+                                })(<Input onChange={this.handleInputChange('name')} />)}
+                            </Form.Item>
+                            <br/>
+                            <Form.Item
+                                style={{margin: '0 auto'}}
+                                label="E-mail"
+                            >
+                                {getFieldDecorator('email', {
+                                    rules: [
+                                        {
+                                            type: 'email',
+                                            message: 'The input is not valid E-mail!',
+                                        },
+                                        {
+                                            required: true,
+                                            message: 'Please input your E-mail!',
+                                        },
+                                    ],
+                                })(<Input onChange={this.handleInputChange('email')}/>)}
+                            </Form.Item>
+                            <br/>
+                            <Form.Item
+                                style={{margin: '0 auto'}}
+                                label="Phone Number"
+                            >
+                                {getFieldDecorator('phone', {
+                                    rules: [{ message: 'Please input your phone number!' }],
+                                })(<Input onChange={ this.handleInputChange('phone')} addonBefore={prefixSelector} style={{ width: '100%' }} />)}
+                            </Form.Item>
+                            <br/>
+                            <Form.Item
+                                required
+                                style={{margin: '0 auto'}}
+                                label={
+                                    <>
+                                        <span>Available In</span>
+                                        <Tooltip title="Please only select the cities you can assist in">
+                                            <Icon type="question-circle-o" />
+                                        </Tooltip>
+                                    </>
+                                }
+                            >
+                                <Select
+                                    mode="multiple"
+                                    style={{ width: '100%' }}
+                                    placeholder="select at least a city"
+                                    onChange={this.handleInputChange('available_in')}
+                                    optionLabelProp="label"
+                                >
                                     {
-                                        this.state.isOtherServiceChecked &&
-                                            <Input onChange={this.handleInputChange('other_service_offered')}/>
+                                        possibleLocations.Romania.map( (city, i) => {
+                                            return <Option key={i} value={city} label={city}>
+                                                {city}
+                                            </Option>
+                                        })
                                     }
-                                </Checkbox>
-                            </Col>
+                                </Select>
+                            </Form.Item>
+                            <br/>
+                            <Form.Item
+                                required
+                                style={{margin: '0 auto'}}
+                                label="Date of Birth: "
+                            >
+                                <Form.Item style={{margin: "0 auto", float: "left"}}
+                                    // validateStatus="error"
+                                           help="Please select the correct date"
+                                >
+                                    <DatePicker style={{float: "left"}}
+                                                onChange={this.handleInputChange('date_of_birth')}/>
+                                </Form.Item>
+                            </Form.Item>
+                            <br/>
+                            <Form.Item
+                                required
+                                style={{margin: '0 auto'}}
+                                label="Services Offered: "
+                            >
+                                <Checkbox.Group style={{ width: '100%' }}
+                                                onChange={this.handleInputChange('services_offered')}
+                                >
+                                    <Row style={{marginTop: 10, marginLeft: -25}}>
+                                        <Col span={6}>
+                                            <Checkbox value="personal_training">
+                                                Personal Training
+                                            </Checkbox>
+                                        </Col>
+                                        <Col span={6}>
+                                            <Checkbox value="nutrition_coaching">
+                                                NutritionCoaching
+                                            </Checkbox>
+                                        </Col>
+                                        <Col span={6}>
+                                            <Checkbox value="other">
+                                                Other (please specify):
+                                                {
+                                                    this.state.isOtherServiceChecked &&
+                                                    <Input onChange={this.handleInputChange('other_service_offered')}/>
+                                                }
+                                            </Checkbox>
+                                        </Col>
 
-                        </Row>
-                    </Checkbox.Group>
-                </Form.Item>
-                <br/>
-                <Form.Item
-                    style={{margin: '0 auto'}}
-                    label="Description"
-                >
-                    <TextArea onChange={this.handleInputChange('description')} rows={4} />
-                </Form.Item>
-                <br/>
-                <Form.Item
-                    style={{margin: '0 auto'}}
-                    label="Your Photo: "
-                >
-                    <Dragger name={'file'}
-                             multiple={false}
-                             action={() => {}}
-                             customRequest={({file, onSuccess, onError}) => {
-                                 let upload = request.post(CLOUDINARY_UPLOAD_URL)
-                                 .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
-                                 .field('file', file);
+                                    </Row>
+                                </Checkbox.Group>
+                            </Form.Item>
+                            <br/>
+                            <Form.Item
+                                required
+                                style={{margin: '0 auto'}}
+                                label="Sex"
+                            >
+                                <Radio.Group
+                                    style={{float: 'left'}}
+                                    onChange={this.handleInputChange('sex')}
+                                >
+                                    <Radio value={'male'}>Male</Radio>
+                                    <Radio value={'female'}>Female</Radio>
+                                </Radio.Group>
+                            </Form.Item>
+                            <br/>
+                            <Form.Item
+                                style={{margin: '0 auto'}}
+                                label="Description"
+                            >
+                                <TextArea onChange={this.handleInputChange('description')} rows={4} />
+                            </Form.Item>
+                            <br/>
+                            <Form.Item
+                                style={{margin: '0 auto'}}
+                                label="Your Photo: "
+                            >
+                                <Dragger name={'file'}
+                                         multiple={false}
+                                         action={() => {}}
+                                         customRequest={({file, onSuccess, onError}) => {
+                                             let upload = request.post(CLOUDINARY_UPLOAD_URL)
+                                                 .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
+                                                 .field('file', file);
 
-                                 upload.end((err, response) => {
-                                 if (err) {
-                                 onError();
-                                 console.error(err);
-                             }
-                                 onSuccess();
-                                 if (response.body.secure_url !== '') {
-                                 console.log('CLOUDINARY URL: ', response.body.secure_url);
-                                 this.setState({trainer: {...this.state.trainer, photo: response.body.secure_url}})
-                             }
-                             });
-                             }}
+                                             upload.end((err, response) => {
+                                                 if (err) {
+                                                     onError();
+                                                     console.error(err);
+                                                 }
+                                                 onSuccess();
+                                                 if (response.body.secure_url !== '') {
+                                                     console.log('CLOUDINARY URL: ', response.body.secure_url);
+                                                     this.setState({trainer: {...this.state.trainer, photo: response.body.secure_url}})
+                                                 }
+                                             });
+                                         }}
 
-                             onChange={(info) => {
-                                 const { status } = info.file;
-                                 if (status !== 'uploading') {
-                                 console.log(info.file, info.fileList);
-                             }
-                                 if (status === 'done') {
-                                 message.success(`${info.file.name} file uploaded successfully.`);
-                                 console.log(`${JSON.stringify(info)} file uploaded successfully.`);
-                             } else if (status === 'error') {
-                                 message.error(`${info.file.name} file upload failed.`);
-                                 console.log(`${info.file.name} file upload failed.`);
-                             }
-                             }
-                         }>
-                        <p className="ant-upload-drag-icon">
-                            <Icon type="inbox" />
-                        </p>
-                        <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                        <p className="ant-upload-hint">
-                            Support for a single or bulk upload. Strictly prohibit from uploading company data or other
-                            band files
-                        </p>
-                    </Dragger>
-                </Form.Item>
-                <br/>
-                <Form.Item {...tailFormItemLayout}
-                           style={{margin: '0 auto'}}
-                >
-                    {getFieldDecorator('agreement', {
-                        valuePropName: 'checked',
-                    })(
-                        <Checkbox onChange={this.handleInputChange('agreement')}>
-                            I have read the GDPR <a href="">agreement</a>
-                        </Checkbox>,
-                    )}
-                </Form.Item>
-                <br/>
-                <Form.Item {...tailFormItemLayout}>
-                    <Button
-                        disabled={!this.isRegisterPossible()}
-                        type="primary"
-                        htmlType="submit"
-                    >
-                        Register
-                    </Button>
-                </Form.Item>
+                                         onChange={(info) => {
+                                             const { status } = info.file;
+                                             if (status !== 'uploading') {
+                                                 console.log(info.file, info.fileList);
+                                             }
+                                             if (status === 'done') {
+                                                 message.success(`${info.file.name} file uploaded successfully.`);
+                                                 console.log(`${JSON.stringify(info)} file uploaded successfully.`);
+                                             } else if (status === 'error') {
+                                                 message.error(`${info.file.name} file upload failed.`);
+                                                 console.log(`${info.file.name} file upload failed.`);
+                                             }
+                                         }
+                                         }>
+                                    <p className="ant-upload-drag-icon">
+                                        <Icon type="inbox" />
+                                    </p>
+                                    <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                                    <p className="ant-upload-hint">
+                                        Support for a single or bulk upload. Strictly prohibit from uploading company data or other
+                                        band files
+                                    </p>
+                                </Dragger>
+                            </Form.Item>
+                            <br/>
+                            <Form.Item {...tailFormItemLayout}
+                                       style={{margin: '0 auto'}}
+                            >
+                                {getFieldDecorator('agreement', {
+                                    valuePropName: 'checked',
+                                })(
+                                    <Checkbox onChange={this.handleInputChange('agreement')}>
+                                        I have read the GDPR <a href="">agreement</a>
+                                    </Checkbox>,
+                                )}
+                            </Form.Item>
+                            <br/>
+                            <Form.Item {...tailFormItemLayout}>
+                                <Button
+                                    disabled={!this.isRegisterPossible()}
+                                    type="primary"
+                                    htmlType="submit"
+                                >
+                                    Register
+                                </Button>
+                            </Form.Item>
+                        </>
+
+                }
+
             </Form>
         );
     }

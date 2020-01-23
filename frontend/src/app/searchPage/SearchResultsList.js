@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import { List, Icon } from 'antd';
+import {List, Icon, Button} from 'antd';
 import TrainerDetailsModal from "./TrainerDetailsModal";
 
-const IconText = ({ type, text }) => (
-    <span>
-    <Icon type={type} style={{ marginRight: 8 }} />
-        {text}
-  </span>
-);
+// const IconText = ({ type, text }) => (
+//     <span>
+//     <Icon type={type} style={{ marginRight: 8 }} />
+//         {text}
+//   </span>
+// );
 
 const SearchResultsList = (props) => {
 
@@ -45,7 +45,7 @@ const SearchResultsList = (props) => {
                         onChange: page => {
                             console.log(page);
                         },
-                        pageSize: 10,
+                        pageSize: 4,
                     }}
                     dataSource={props.trainers}
                     footer={
@@ -56,25 +56,30 @@ const SearchResultsList = (props) => {
                     renderItem={item => (
                         <List.Item
                             key={item.id}
-                            actions={[
-                                <IconText type="star-o" text="156" key="list-vertical-star-o"/>,
-                                <IconText type="like-o" text="156" key="list-vertical-like-o"/>,
-                                <IconText type="message" text="2" key="list-vertical-message"/>,
-                            ]}
+                            // actions={[
+                            //     <IconText type="star-o" text="156" key="list-vertical-star-o"/>,
+                            //     <IconText type="like-o" text="156" key="list-vertical-like-o"/>,
+                            //     <IconText type="message" text="2" key="list-vertical-message"/>,
+                            // ]}
                             extra={
                                 <img
-                                    width={272}
+                                    // width={182}
                                     alt="logo"
-                                    src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                                    src={item.photo}
                                 />
                             }
                         >
                             <List.Item.Meta
                                 title={<a href={item.href}>{item.title || item.full_name}</a>}
-                                description={item.description || 'Mock Description'}
+                                // description={item.description || 'Mock Description'}
                             />
-                            {item.content || 'Mock Content Lorem ipsum dolor sit amet'}
-                            <button style={{cursor: "pointer"}} onClick={() => handleItemClicked(item)}>See Trainer Details</button>
+                            {item.description || 'Mock Description'}
+                            <br/>
+                            <br/>
+                            <Button key="submit" type="default" onClick={() => handleItemClicked(item)}>
+                                View Trainer Details
+                            </Button>
+                            {/*<button style={{cursor: "pointer"}} onClick={() => handleItemClicked(item)}>View Trainer Details</button>*/}
                             {/*<button style={{cursor: "pointer"}} onClick={() => {toggleOpenCandidateDialog(true, candidate.id)}}>Edit</button>*/}
                         </List.Item>
                     )}

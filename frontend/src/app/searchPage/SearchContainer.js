@@ -21,8 +21,23 @@ const SearchContainer = () => {
         currentCandidateId: 0
     });
 
-    function fetchAllTrainers() {
-        const url = 'http://localhost:5000/api/v2/trainers/';
+    function fetchAllTrainers(params) {
+        let url = 'http://localhost:5000/api/v2/trainers';
+        console.log(params)
+        if (params) {
+            let queryStringParams = '?';
+            if (params.name) {
+                queryStringParams += 'name=' + params.name + '&';
+            }
+            if (params.city) {
+                queryStringParams += 'city=' + params.city + '&';
+            }
+            if (params.sex) {
+                queryStringParams += 'sex=' + params.sex
+            }
+            url += queryStringParams;
+        }
+
         fetch(url)
             .then((resp) => resp.json())
             .then(function(response) {
@@ -37,14 +52,15 @@ const SearchContainer = () => {
 
     return (
         <div className='search-container'>
-            <SearchHeader onHeaderSubmit={fetchAllTrainers}/>
+
             <Row>
-                <Col span={4}>col-4</Col>
+                <Col span={4}></Col>
                 <Col span={16}>
-                    col-16
+                    {/*col-16*/}
+                    <SearchHeader onHeaderSubmit={fetchAllTrainers}/>
                     <SearchResultsList trainers={state.trainers}/>
                 </Col>
-                <Col span={4}>col-4</Col>
+                <Col span={4}></Col>
             </Row>
         </div>
     )

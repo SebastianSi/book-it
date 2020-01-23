@@ -22,6 +22,10 @@ const trainerSchema = new mongoose.Schema({
         type: String,
         unique: false,
     },
+    sex: {
+        type: String,
+        unique: false,
+    },
     description: {
         type: String,
         unique: false,

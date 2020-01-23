@@ -19,7 +19,12 @@
 }
 
 .ant-list-vertical .ant-list-item-extra {
-    margin: 25px 35px 5px;
+    margin: 12px 35px 5px;
+}
+
+.ant-list-vertical .ant-list-item-extra img {
+    height: 150px;
+    width: 120px;
 }
 
 /*SearchResultListFooter*/

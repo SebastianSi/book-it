@@ -47,6 +47,7 @@ const setAppRoutes = function(app) {
             birth_date: req.body.date_of_birth,
             description: req.body.description,
             photo: req.body.photo,
+            sex: req.body.sex,
             services_offered: req.body.services_offered,
             available_in: req.body.available_in,
         });
