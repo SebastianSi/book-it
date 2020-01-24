@@ -1,11 +1,13 @@
 import React, {useState, useEffect} from "react"
 import { Modal, Button, Descriptions, Card, Divider } from 'antd';
 import './TrainerDetailsModal.css';
+import SendEmailForm from './SendEmailForm';
 const { Meta } = Card;
 
 function TrainerDetailsModal(props) {
 
     const [trainerData, setTrainerData] = useState({});
+    const [sendEmail, setSendEmail] = useState(false);
     console.log(props);
 
     useEffect(() => {
@@ -22,7 +24,7 @@ function TrainerDetailsModal(props) {
 
 
     const handleOk = () => {
-
+        setSendEmail(true);
     };
 
     const loading = false;
@@ -40,13 +42,16 @@ function TrainerDetailsModal(props) {
                 destroyOnClose
                 footer={[
                     <Button key="submit" type="primary" loading={loading} onClick={handleOk}>
-                        Show Contact Info
+                        Contact Trainer
                     </Button>,
                     <Button key="back" onClick={props.goBack}>
                         Return
                     </Button>,
                 ]}
             >
+                {
+                Object.entries(trainerData).length &&
+                <>
                 <Descriptions column={1} size={"middle"} layout={"horizontal"}>
                     <Descriptions.Item>
                         <span>
@@ -54,8 +59,8 @@ function TrainerDetailsModal(props) {
                         </span>
                         <Card
                             // hoverable
-                            style={{ maxWidth: '36%', maxHeight: '42%' }}
-                            cover={<img width={250} height={300} alt="trainer photo" src={trainerData.photo} />}
+                            style={{ maxWidth: '24%', maxHeight: '30%' }}
+                            cover={<img width={178} height={220} alt="trainer photo" src={trainerData.photo} />}
                         >
                             {/*<Meta title="Europe Street beat" description="www.instagram.com" />*/}
                         </Card>
@@ -96,12 +101,23 @@ function TrainerDetailsModal(props) {
                         </ul>
                     </Descriptions.Item>
                 </Descriptions>
+                <Divider/>
+                <Descriptions title="Contact Info">
+                    <Descriptions.Item label="Email:"><b>{trainerData.email}</b></Descriptions.Item>
+                    <Descriptions.Item label="Telephone:"><b>{trainerData.phone_number}</b></Descriptions.Item>
+                </Descriptions>
+                    {
+                        sendEmail &&
+                            <SendEmailForm />
+                    }
+                </>
+                }
             </Modal>
     );
 }
 
 const modalBodyStyle = {
-    height: '65vh'
+    height: '90vh'
 };
 
 const getAge = birthDate => Math.floor((new Date() - new Date(birthDate).getTime()) / 3.15576e+10)

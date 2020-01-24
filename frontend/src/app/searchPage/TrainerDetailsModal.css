@@ -22,6 +22,10 @@
     content: '';
 }
 
+.ant-descriptions-middle .ant-descriptions-row > td {
+    padding: 0 auto;
+}
+
 .ant-card-cover img {
     max-width: 250px;
 }
