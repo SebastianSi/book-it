@@ -24,7 +24,7 @@ setAppRoutes(app);
 //     console.log(`server running on port ${PORT}`)
 // });
 
-const eraseDatabaseOnSync = true;
+const eraseDatabaseOnSync = false;
 
 connectDb().then(async () => {
     if (eraseDatabaseOnSync) {

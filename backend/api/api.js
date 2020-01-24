@@ -7,18 +7,27 @@ const setAppRoutes = function(app) {
 
     //data from db
     app.get('/api/v2/trainers', async (req, res) => {
-        // console.log('DROPPING DB...');
-        // mongoose.connection.dropDatabase();
-        console.log('retrieved all trainers');
-        const trainers = await models.Trainer.find();
+
+        let {name, sex, city} = req.query;
+        let trainers = await models.Trainer.find();
+        if (name) {
+            trainers = trainers.filter(trainer=>
+                trainer.full_name.toUpperCase().includes(name.toUpperCase())
+            )
+        }
+        if (sex) {
+            trainers = trainers.filter(trainer=> trainer.sex === sex)
+        }
+        if (city) {
+            trainers = trainers.filter(trainer=> {
+                let cities = trainer.available_in.map(city=>city.toUpperCase());
+                return cities.includes(city.toUpperCase())
+            })
+        }
         return res.send(trainers);
     });
 
     app.get('/api/v2/trainers/:id', async (req, res) => {
-        // const id = req.params.id ;
-
-        // var query  = Kitten.where({ color: 'white' });
-
         let trainerFromDb = await models.Trainer.findOne({ id: req.params.id });
 
         if (trainerFromDb) {

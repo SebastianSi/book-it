@@ -20,11 +20,15 @@ const possibleLocations = {
 
 function SearchFilters(props) {
 
-    const [filters, setFilters] = useState({});
+    const [filters, setFilters] = useState({
+        name: '',
+        sex: '',
+        city: ''
+    });
 
-    useEffect(() => {
-        setFilters({})
-    }, []);
+    // useEffect(() => {
+    //     setFilters({})
+    // }, []);
     const formItemLayout = {
         labelCol: { span: 5 },
         wrapperCol: { span: 16 },
@@ -61,7 +65,7 @@ function SearchFilters(props) {
                                    {...formItemLayout}
                         >
                             <Radio.Group
-                                defaultValue={filters.sex || ''}
+                                // defaultValue={filters.sex || ''}
                                 onChange={handleInputChange('sex')}
                             >
                                 <Radio.Button value="both">Both</Radio.Button>
@@ -72,7 +76,7 @@ function SearchFilters(props) {
                         <Form.Item label="Name" {...formItemLayout}>
                             <Input placeholder="Trainer name"
                                    onChange={handleInputChange('name')}
-                                   value={filters.name || ''}
+                                   // value={filters.name || ''}
                             />
                         </Form.Item>
                         <Form.Item label="City" {...formItemLayout}>
@@ -80,7 +84,7 @@ function SearchFilters(props) {
                                 mode="default"
                                 style={{ width: '100%' }}
                                 placeholder="Please select a city"
-                                defaultValue={filters.city || ''}
+                                // defaultValue={filters.city || ''}
                                 onChange={handleInputChange('city')}
                             >
                                 {
@@ -100,19 +104,18 @@ function SearchFilters(props) {
                             style={{height: '3rem', width: '11rem'}}
                             onClick={()=> {
                                 let filtersToSend = {...filters};
+                                console.log('filtersToSend: ', filtersToSend);
+                                // debugger;
                                 if (
-                                    !Object.entries(filtersToSend).length ||
-                                    !filtersToSend.name ||
-                                    !filtersToSend.city ||
-                                    !filtersToSend.sex
+                                    filtersToSend.name ||
+                                    filtersToSend.city ||
+                                    filtersToSend.sex
                                 ) {
-                                    props.onSubmit();
-                                } else {
-                                    // console.log('filtersToSend: ', filtersToSend);
                                     props.onSubmit(filtersToSend);
+
+                                } else {
+                                    props.onSubmit();
                                 }
-                                //empty form
-                                setFilters({});
                             }}
                     >Find Trainers</Button>
                 </Form.Item>

@@ -7,7 +7,7 @@ import SearchHeader from "./SearchHeader";
 function trainersReducer(state, action) {
     switch (action.type) {
         case 'SET_TRAINERS':
-            console.log("SET_TRAINERS");
+            // console.log("SET_TRAINERS");
             return {...state, trainers: action.trainers};
         default:
             return state
@@ -21,19 +21,18 @@ const SearchContainer = () => {
         currentCandidateId: 0
     });
 
-    function fetchAllTrainers(params) {
+    function fetchAllTrainers(filters) {
         let url = 'http://localhost:5000/api/v2/trainers';
-        console.log(params)
-        if (params) {
+        if (filters) {
             let queryStringParams = '?';
-            if (params.name) {
-                queryStringParams += 'name=' + params.name + '&';
+            if (filters.name) {
+                queryStringParams += 'name=' + filters.name + '&';
             }
-            if (params.city) {
-                queryStringParams += 'city=' + params.city + '&';
+            if (filters.city) {
+                queryStringParams += 'city=' + filters.city + '&';
             }
-            if (params.sex) {
-                queryStringParams += 'sex=' + params.sex
+            if (filters.sex) {
+                queryStringParams += 'sex=' + filters.sex
             }
             url += queryStringParams;
         }
