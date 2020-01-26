@@ -45,4 +45,11 @@ const trainerSchema = new mongoose.Schema({
 
 const Trainer = mongoose.model('Trainer', trainerSchema);
 
+//in case of unique indexes in mongo:
+// Trainer.collection.dropIndexes(function(err, results) {
+//     console.log('err:', err);
+//     console.log('results: ', results);
+// });
+
+
 export default Trainer;

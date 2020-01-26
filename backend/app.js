@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import setAppRoutes from './api/api';
+import setAppRoutes from './controllers/api';
 import models, { connectDb, closeDbConnection } from './models';
 
 // Set up the express app
