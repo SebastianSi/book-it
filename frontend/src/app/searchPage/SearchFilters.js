@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from "react"
+import React, { useState } from "react"
 import { Form, Input, Button, Radio, Select, Collapse, Divider } from 'antd';
 
-// import Skeleton from "antd/lib/skeleton";
 const { Option } = Select;
 const { Panel } = Collapse;
 
@@ -25,10 +24,6 @@ function SearchFilters(props) {
         sex: '',
         city: ''
     });
-
-    // useEffect(() => {
-    //     setFilters({})
-    // }, []);
     const formItemLayout = {
         labelCol: { span: 5 },
         wrapperCol: { span: 16 },
@@ -65,7 +60,6 @@ function SearchFilters(props) {
                                    {...formItemLayout}
                         >
                             <Radio.Group
-                                // defaultValue={filters.sex || ''}
                                 onChange={handleInputChange('sex')}
                             >
                                 <Radio.Button value="both">Both</Radio.Button>
@@ -76,7 +70,6 @@ function SearchFilters(props) {
                         <Form.Item label="Name" {...formItemLayout}>
                             <Input placeholder="Trainer name"
                                    onChange={handleInputChange('name')}
-                                   // value={filters.name || ''}
                             />
                         </Form.Item>
                         <Form.Item label="City" {...formItemLayout}>
@@ -84,7 +77,6 @@ function SearchFilters(props) {
                                 mode="default"
                                 style={{ width: '100%' }}
                                 placeholder="Please select a city"
-                                // defaultValue={filters.city || ''}
                                 onChange={handleInputChange('city')}
                             >
                                 {
@@ -105,7 +97,6 @@ function SearchFilters(props) {
                             onClick={()=> {
                                 let filtersToSend = {...filters};
                                 console.log('filtersToSend: ', filtersToSend);
-                                // debugger;
                                 if (
                                     filtersToSend.name ||
                                     filtersToSend.city ||

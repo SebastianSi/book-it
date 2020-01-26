@@ -5,10 +5,6 @@
     font-weight: 600;
 }
 
-.ant-modal-content {
-    /*text-align: center;*/
-}
-
 .ant-descriptions-item > span {
     display: flex;
     justify-content: space-between;

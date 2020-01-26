@@ -20,10 +20,6 @@ app.use(function(req, res, next) {
 
 setAppRoutes(app);
 
-// app.listen(PORT, () => {
-//     console.log(`server running on port ${PORT}`)
-// });
-
 const eraseDatabaseOnSync = false;
 
 connectDb().then(async () => {

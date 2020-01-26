@@ -1,12 +1,9 @@
 .search-header {
     width: 70%;
     margin-left: 15%;
-    /*text-align: center;*/
-    /*align-items: center;*/
 }
 
 .search-filters-container * {
-    /*color: #fff;*/
     background: #000;
     border-radius: 5px;
     mix-blend-mode: difference;

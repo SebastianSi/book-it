@@ -12,22 +12,8 @@ import SearchPage from "./searchPage/SearchPage";
 import HomePage from "./HomePage";
 import AddTrainer from "./RegisterTrainerPage/AddTrainer";
 
-function fetchTrainersFromDb() {
-    const url = 'http://localhost:5000/api/v2/trainers/';
-    fetch(url)
-        .then((resp) => resp.json())
-        .then(function(response) {
-            console.log('trainers from db: ', response)
-        })
-        .catch(function(error) {
-            console.log(error);
-        });
-}
-
 class App extends React.Component {
-
     componentDidMount() {
-        fetchTrainersFromDb();
         toggleHeaderItemsActiveClass();
     }
 

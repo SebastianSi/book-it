@@ -5,13 +5,11 @@ import SearchHeader from "./SearchHeader";
 
 
 function trainersReducer(state, action) {
-    switch (action.type) {
-        case 'SET_TRAINERS':
-            // console.log("SET_TRAINERS");
-            return {...state, trainers: action.trainers};
-        default:
-            return state
+
+    if (action.type === 'SET_TRAINERS') {
+        return {...state, trainers: action.trainers}
     }
+    return state
 }
 
 const SearchContainer = () => {
@@ -40,7 +38,6 @@ const SearchContainer = () => {
         fetch(url)
             .then((resp) => resp.json())
             .then(function(response) {
-                // let {trainers} = response;
                 dispatch({type: 'SET_TRAINERS', trainers: response});
                 console.log(response);
             })
@@ -51,11 +48,9 @@ const SearchContainer = () => {
 
     return (
         <div className='search-container'>
-
             <Row>
                 <Col span={4}></Col>
                 <Col span={16}>
-                    {/*col-16*/}
                     <SearchHeader onHeaderSubmit={fetchAllTrainers}/>
                     <SearchResultsList trainers={state.trainers}/>
                 </Col>

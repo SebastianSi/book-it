@@ -5,7 +5,6 @@ const DATABASE_URL = 'mongodb://127.0.0.1:27017/node-express-mongodb-server' ;
 const connectDb = () => {
     console.log('CONNECTING TO DB...');
     return mongoose.connect(DATABASE_URL, {useNewUrlParser: true});
-    // return mongoose.connect(process.env.DATABASE_URL);
 };
 
 const closeDbConnection = () => {

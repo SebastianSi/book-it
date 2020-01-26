@@ -1,13 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {List, Icon, Button} from 'antd';
+import {List, Button} from 'antd';
 import TrainerDetailsModal from "./TrainerDetailsModal";
-
-// const IconText = ({ type, text }) => (
-//     <span>
-//     <Icon type={type} style={{ marginRight: 8 }} />
-//         {text}
-//   </span>
-// );
 
 const SearchResultsList = (props) => {
 
@@ -18,13 +11,9 @@ const SearchResultsList = (props) => {
         setIsModalOpen(shouldOpen)
     };
     useEffect(() => {
-        // Update the document title using the browser API
-        // console.log('Did Mount')
     }, [props.trainers]);
-    // console.log(props.trainers);
 
     const handleItemClicked = (item) => {
-        console.log('item: ', item);
         setCurrentTrainerId(item.id);
         toggleOpenTrainerDialog(true)
     };
@@ -57,7 +46,6 @@ const SearchResultsList = (props) => {
                             key={item.id}
                             extra={
                                 <img
-                                    // width={182}
                                     alt="logo"
                                     src={item.photo}
                                 />

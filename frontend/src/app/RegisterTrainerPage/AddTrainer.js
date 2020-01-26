@@ -2,7 +2,6 @@ import React from 'react';
 import request from 'superagent';
 import {
     Form,
-    Alert,
     Input,
     Tooltip,
     Icon,
@@ -23,7 +22,6 @@ import {
 const { Option } = Select;
 const { Dragger } = Upload;
 const { TextArea } = Input;
-const AutoCompleteOption = AutoComplete.Option;
 
 const CLOUDINARY_UPLOAD_PRESET = 'dcy1h5pm';
 const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/drbdwdnqx/image/upload';
@@ -67,7 +65,7 @@ class RegisterAsTrainerForm extends React.Component {
     saveTrainerInDb = trainer => {
         const url = 'http://localhost:5000/api/v2/trainers/';
         fetch(url, {
-            method: 'POST', // or 'PUT'
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -103,7 +101,6 @@ class RegisterAsTrainerForm extends React.Component {
                 this.setState({trainer: {...trainer, date_of_birth: extraData}});
                 break;
             case 'services_offered':
-                console.log(e);
                 this.setState({
                     trainer: {
                         ...trainer,
@@ -122,7 +119,6 @@ class RegisterAsTrainerForm extends React.Component {
                 this.setState({trainer: {...trainer, description: e.target.value}});
                 break;
             case 'photo':
-                //TODO:
                 this.setState({trainer: {...trainer, photo: e}});
                 break;
             case 'agreement':
@@ -144,17 +140,15 @@ class RegisterAsTrainerForm extends React.Component {
             trainer.services_offered && trainer.services_offered.length &&
             trainer.agreement_checked
         )
-    }
+    };
 
-    //TODO: could move to utils, maybe
     isCurrentEmailValid = () => {
         let { trainer } = this.state;
         let regex = /\S+@\S+\.\S+/;
         return regex.test(trainer.email);
-    }
+    };
 
     render() {
-        console.log(this.state);
         const { getFieldDecorator } = this.props.form;
 
         const formItemLayout = {
