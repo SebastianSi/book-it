@@ -1,15 +1,26 @@
 import React from "react";
+import './SendEmailForm.css';
+import { Modal, Input, Tooltip, Icon, Result, Button } from 'antd';
 
-export default class SendEmailForm extends React.Component {
+const { TextArea } = Input;
+
+export default class SendEmailModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            feedback: `1 bitchulescu, 2 bitchulesti`,
-            name: 'userul care viziteaza, sa-i zicem Sebi',
-            email: 'paula.constantinescu07@gmail.com'
+            emailWasSent: false,
+            isLoading: false,
+            feedback: '',
+            name: '',
+            email: ''
         };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    componentDidMount() {
+        this.setState({
+            name: this.props.name,
+            email: this.props.email
+        })
     }
 
     sendFeedback (templateId, variables) {
@@ -17,46 +28,93 @@ export default class SendEmailForm extends React.Component {
             'contact_service', templateId,
             variables
         ).then(res => {
+            this.setState({emailWasSent: true, isLoading: false});
             console.log('Email successfully sent!')
         })
-        // Handle errors here however you like, or use a React error boundary
             .catch(err => console.error('An error occured: ', err))
     }
 
 
-    handleChange(event) {
-        this.setState({feedback: event.target.value})
-    }
+    handleEmailBodyChange = e => {
+        this.setState({feedback: e.target.value})
+    };
 
-    handleSubmit (event) {
+    handleSubmit = e => {
+
         const templateId = 'template_edDa8Nzs';
 
         this.sendFeedback(templateId, {
             message_html: this.state.feedback,
-            from_name: this.state.name,
-            reply_to: this.state.email,
-            to_name: 'Paula',
-            user_email: 'paula.constantinescu07@gmail.com'
-        })
-    }
+            to_name: this.state.name,
+            user_email: this.state.email
+        });
+
+        setTimeout(()=> {
+            this.props.goBack();
+        }, 6000)
+    };
+
+    handleOk = e => {
+        this.setState({isLoading: true});
+        this.handleSubmit();
+    };
+
+    handleCancel = e => {
+        this.props.goBack();
+    };
 
     render() {
         return (
-            <form className="test-mailing">
-                <h1>Let's see if it works</h1>
-                <div>
-      	<textarea
-            id="test-mailing"
-            name="test-mailing"
-            onChange={this.handleChange}
-            placeholder="Post some lorem ipsum here"
-            required
-            value={this.state.feedback}
-            style={{width: '100%', height: '150px'}}
-        />
-                </div>
-                <input type="button" value="Submit" className="btn btn--submit" onClick={this.handleSubmit} />
-            </form>
+            <>
+                <Modal
+                    title={`Contact ${this.state.name} via email`}
+                    visible={true}
+                    onCancel={this.handleCancel}
+                    cancelButtonProps={{ disabled: false }}
+                    footer={[
+                        <Button key="back" onClick={this.handleCancel}>
+                            Return
+                        </Button>,
+                        <Button
+                            disabled={!this.state.feedback.length}
+                            key="submit" type="primary"
+                            loading={this.state.isLoading}
+                            onClick={this.handleOk}
+                        >
+                            Send email
+                        </Button>,
+                    ]}
+                >
+                    {this.state.emailWasSent ?
+                        <Result
+                            status="success"
+                            title="Email Sent!"
+                            subTitle="You will now be redirected to the trainer details."
+                        />
+                        :
+                        <div style={{height: '20vh'}}>
+                            <p>
+                                <span style={{marginRight: 15}}>
+                                    Your message below:
+                                </span>
+                            <Tooltip
+                                title="Note: we already fill the email subject so the
+                                trainer knows it's through our platform">
+                                <Icon type="info-circle" style={{ color: 'rgba(0,0,0,.45)' }} />
+                            </Tooltip>
+                            </p>
+
+                        <TextArea
+                            style={{maxHeight: 100}}
+                            allowClear
+                            onChange={this.handleEmailBodyChange}
+                            value={this.state.feedback}
+                            rows={5}
+                        />
+                        </div>
+                    }
+                </Modal>
+            </>
         )
     }
 }

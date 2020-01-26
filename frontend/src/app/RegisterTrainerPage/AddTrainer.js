@@ -283,11 +283,11 @@ class RegisterAsTrainerForm extends React.Component {
                                 label="Date of Birth: "
                             >
                                 <Form.Item style={{margin: "0 auto", float: "left"}}
-                                    // validateStatus="error"
                                            help="Please select the correct date"
                                 >
                                     <DatePicker style={{float: "left"}}
-                                                onChange={this.handleInputChange('date_of_birth')}/>
+                                                onChange={this.handleInputChange('date_of_birth')}
+                                    />
                                 </Form.Item>
                             </Form.Item>
                             <br/>

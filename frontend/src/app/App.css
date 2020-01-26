@@ -57,6 +57,20 @@ body{
 }
 
 .main-header ul li.active {
-  background-color: purple;
+  background-color: rebeccapurple;
   color: white;
+}
+
+.ant-carousel .slick-slide {
+  text-align: center;
+  height: 60vh;
+  line-height: 60vh;
+  background: rebeccapurple;
+  overflow: hidden;
+  width: 70vw;
+}
+
+.ant-carousel .slick-slide {
+  color: #fff;
+  font-size: 1.3em;
 }

@@ -1,30 +1,28 @@
 import React, {useState, useEffect} from "react"
 import { Modal, Button, Descriptions, Card, Divider } from 'antd';
 import './TrainerDetailsModal.css';
-import SendEmailForm from './SendEmailForm';
-const { Meta } = Card;
+import SendEmailModal from './SendEmailForm';
 
 function TrainerDetailsModal(props) {
 
     const [trainerData, setTrainerData] = useState({});
-    const [sendEmail, setSendEmail] = useState(false);
-    console.log(props);
+    const [showEmailForm, setShowEmailForm] = useState(false);
 
     useEffect(() => {
-
         const fetchData = async () => {
             const response = await fetch(`http://localhost:5000/api/v2/trainers/${props.trainerId}`);
             const myJson = await response.json();
             return myJson.trainerFromDb;
         };
-
         fetchData().then( trainerDetailsResponse => setTrainerData(trainerDetailsResponse));
     }, []);
 
+    const handleContactTrainer = () => {
+        toggleOpenEmailForm(true);
+    };
 
-
-    const handleOk = () => {
-        setSendEmail(true);
+    const toggleOpenEmailForm = (shouldOpen) => {
+        setShowEmailForm(shouldOpen)
     };
 
     const loading = false;
@@ -36,12 +34,12 @@ function TrainerDetailsModal(props) {
                 centered
                 bodyStyle={modalBodyStyle}
                 title={trainerData ? trainerData.full_name : "Unnamed Trainer"}
-                onOk={handleOk}
+                onOk={handleContactTrainer}
                 onCancel={props.goBack}
                 width={window.innerWidth * 0.67}
                 destroyOnClose
                 footer={[
-                    <Button key="submit" type="primary" loading={loading} onClick={handleOk}>
+                    <Button key="submit" type="primary" loading={loading} onClick={handleContactTrainer}>
                         Contact Trainer
                     </Button>,
                     <Button key="back" onClick={props.goBack}>
@@ -58,11 +56,9 @@ function TrainerDetailsModal(props) {
                             {trainerData.description}
                         </span>
                         <Card
-                            // hoverable
                             style={{ maxWidth: '24%', maxHeight: '30%' }}
                             cover={<img width={178} height={220} alt="trainer photo" src={trainerData.photo} />}
                         >
-                            {/*<Meta title="Europe Street beat" description="www.instagram.com" />*/}
                         </Card>
                     </Descriptions.Item>
                 </Descriptions>
@@ -107,8 +103,12 @@ function TrainerDetailsModal(props) {
                     <Descriptions.Item label="Telephone:"><b>{trainerData.phone_number}</b></Descriptions.Item>
                 </Descriptions>
                     {
-                        sendEmail &&
-                            <SendEmailForm />
+                        showEmailForm &&
+                            <SendEmailModal
+                                email={trainerData.email}
+                                name={trainerData.full_name}
+                                goBack={() => {toggleOpenEmailForm(false)}}
+                            />
                     }
                 </>
                 }

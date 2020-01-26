@@ -31,7 +31,7 @@ const SearchContainer = () => {
             if (filters.city) {
                 queryStringParams += 'city=' + filters.city + '&';
             }
-            if (filters.sex) {
+            if (filters.sex && filters.sex !== 'both') {
                 queryStringParams += 'sex=' + filters.sex
             }
             url += queryStringParams;

@@ -9,8 +9,8 @@ import {
 } from "react-router-dom";
 import NotFound from "./NotFound";
 import SearchPage from "./searchPage/SearchPage";
+import HomePage from "./HomePage";
 import AddTrainer from "./RegisterTrainerPage/AddTrainer";
-import Dummy from "./RegisterTrainerPage/Dummy";
 
 function fetchTrainersFromDb() {
     const url = 'http://localhost:5000/api/v2/trainers/';
@@ -46,26 +46,19 @@ class App extends React.Component {
                             <li>
                                 <Link to="/register_as_trainer">Add Trainer</Link>
                             </li>
-                            <li>
-                                <Link to="/dummy">Dummy</Link>
-                            </li>
                         </ul>
                     </nav>
 
-                    {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
                     <Switch>
+
                         <Route path="/search" exact>
                             <SearchPage />
                         </Route>
                         <Route path="/register_as_trainer" exact component={AddTrainer} />
-                        <Route path="/dummy">
-                            <Dummy />
+                        <Route path="/" exact>
+                            <HomePage />
                         </Route>
                         <Route component={NotFound}/>
-                        {/*<Route path="/">*/}
-                        {/*  <Home />*/}
-                        {/*</Route>*/}
                     </Switch>
                 </div>
             </Router>
