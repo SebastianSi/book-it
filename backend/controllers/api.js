@@ -1,69 +1,15 @@
-import trainerService from '../services/trainerService';
-import smsService from '../services/smsService';
+import trainerController from './trainerController';
+import smsController from './smsController';
 
 const setAppRoutes = function(app) {
 
-    app.get('/api/v2/trainers', async (req, res) => {
-
-        let {name, sex, city} = req.query;
-        let trainers = await trainerService.findTrainers();
-
-        if (name) {
-            trainers = trainers.filter(trainer=>
-                trainer.full_name.toUpperCase().includes(name.toUpperCase())
-            )
-        }
-        if (sex) {
-            trainers = trainers.filter(trainer=> trainer.sex === sex)
-        }
-        if (city) {
-            trainers = trainers.filter(trainer=> {
-                let cities = trainer.available_in.map(city=>city.toUpperCase());
-                return cities.includes(city.toUpperCase())
-            })
-        }
-        return res.send(trainers);
-    });
-
-    app.get('/api/v2/trainers/:id', async (req, res) => {
-        let trainerFromDb = await trainerService.findTrainerById(req.params.id);
-
-        if (trainerFromDb) {
-            console.log('retrieved trainer with id: ', req.params.id);
-            return res.status(200).send({
-                success: 'true',
-                message: 'trainerFromDb retrieved successfully',
-                trainerFromDb,
-            });
-        } else {
-            return res.status(404).send({
-                success: 'false',
-                message: 'trainer does not exist',
-            });
-        }
-    });
-
-    app.post('/api/v2/trainers', async (req, res) => {
-        console.log("req body: ", req.body);
-        let trainerAddedInDb = await trainerService.addTrainer(req.body);
-
-        return res.status(201).send({
-            success: 'true',
-            message: 'trainer added successfully',
-            trainer: trainerAddedInDb
-        });
-    });
-
-    app.post('/api/v2/send_sms', async (req, res) => {
-        console.log("req body: ", req.body);
-        let { smsBody, phoneNumber } = req.body;
-        let smsSent = await smsService.sendMessage(smsBody, phoneNumber);
-        return res.status(201).send({
-            success: 'true',
-            message: 'message sent successfully',
-            smsSent
-        });
-    });
+    //Note: this simply sets the routes for the trainerController
+    //and smsController, does not actually execute their functions;
+    //They act as listeners and will execute when their respective endpoints are called
+    trainerController.addTrainer(app);
+    trainerController.getTrainers(app);
+    trainerController.getTrainerById(app);
+    smsController.postMessage(app);
 
 };
 
