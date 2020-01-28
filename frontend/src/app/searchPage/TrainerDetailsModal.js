@@ -1,12 +1,14 @@
 import React, {useState, useEffect} from "react"
-import { Modal, Button, Descriptions, Card, Divider } from 'antd';
+import { Modal, Button, Descriptions, Card, Divider, Icon } from 'antd';
 import './TrainerDetailsModal.css';
 import SendEmailModal from './SendEmailForm';
+import SendSmsModal from './SendSmsForm';
 
 function TrainerDetailsModal(props) {
 
     const [trainerData, setTrainerData] = useState({});
     const [showEmailForm, setShowEmailForm] = useState(false);
+    const [showSmsForm, setShowSmsForm] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -17,15 +19,22 @@ function TrainerDetailsModal(props) {
         fetchData().then( trainerDetailsResponse => setTrainerData(trainerDetailsResponse));
     }, []);
 
-    const handleContactTrainer = () => {
-        toggleOpenEmailForm(true);
+    const handleContactTrainer = (type) => {
+        if (type === 'email') {
+            toggleOpenEmailForm(true);
+        } else if (type === 'sms') {
+            toggleOpenSmsForm(true);
+        }
+
     };
 
     const toggleOpenEmailForm = (shouldOpen) => {
         setShowEmailForm(shouldOpen)
     };
 
-    const loading = false;
+    const toggleOpenSmsForm = (shouldOpen) => {
+        setShowSmsForm(shouldOpen)
+    };
 
     console.log(trainerData);
     return (
@@ -34,13 +43,17 @@ function TrainerDetailsModal(props) {
                 centered
                 bodyStyle={modalBodyStyle}
                 title={trainerData ? trainerData.full_name : "Unnamed Trainer"}
-                onOk={handleContactTrainer}
                 onCancel={props.goBack}
                 width={window.innerWidth * 0.67}
                 destroyOnClose
                 footer={[
-                    <Button key="submit" type="primary" loading={loading} onClick={handleContactTrainer}>
-                        Contact Trainer
+                    <Button key="email" type="primary" loading={false} onClick={()=>handleContactTrainer('email')}>
+                        Contact via Email
+                        <Icon type="mail" />
+                    </Button>,
+                    <Button key="sms" type="primary" loading={false} onClick={()=>handleContactTrainer('sms')}>
+                        Contact via SMS
+                        <Icon type="message" />
                     </Button>,
                     <Button key="back" onClick={props.goBack}>
                         Return
@@ -63,28 +76,28 @@ function TrainerDetailsModal(props) {
                     </Descriptions.Item>
                 </Descriptions>
                 <Divider/>
-                <Descriptions column={2} size={"middle"} layout={"vertical"}>
+                <Descriptions column={4} size={"small"} layout={"vertical"}>
                     <Descriptions.Item style={{display: 'flex'}} label="Age">
                         <b>{getAge(trainerData.birth_date)}</b>
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Sex">
+                        <b>{trainerData.sex === 'male'? 'M' : 'F'}</b>
                     </Descriptions.Item>
                     <Descriptions.Item label="Available in">
                         <ul>
                             {trainerData.available_in &&
                             trainerData.available_in.map((city, i) => {
-                                return <li key={i}>
+                                return <li key={i} style={{marginLeft: -22}}>
                                     <b>{city}</b>
                                 </li>
                             })}
                         </ul>
                     </Descriptions.Item>
-                    <Descriptions.Item label="Sex">
-                        <b>{trainerData.sex === 'male'? 'M' : 'F'}</b>
-                    </Descriptions.Item>
                     <Descriptions.Item label="Services Offered">
                         <ul>
                             {trainerData.services_offered &&
                             trainerData.services_offered.map((service, i) => {
-                                return <li key={i}>
+                                return <li key={i} style={{marginLeft: -22}}>
                                     {
                                         service === 'personal_training'?
                                             <b>Personal Training</b>:
@@ -110,6 +123,14 @@ function TrainerDetailsModal(props) {
                                 goBack={() => {toggleOpenEmailForm(false)}}
                             />
                     }
+                    {
+                        showSmsForm &&
+                            <SendSmsModal
+                                phoneNumber={trainerData.phone_number}
+                                name={trainerData.full_name}
+                                goBack={() => {toggleOpenSmsForm(false)}}
+                            />
+                    }
                 </>
                 }
             </Modal>
@@ -117,7 +138,7 @@ function TrainerDetailsModal(props) {
 }
 
 const modalBodyStyle = {
-    height: '90vh'
+    height: '82vh'
 };
 
 const getAge = birthDate => Math.floor((new Date() - new Date(birthDate).getTime()) / 3.15576e+10)

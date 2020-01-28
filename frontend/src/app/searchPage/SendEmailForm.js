@@ -1,5 +1,5 @@
 import React from "react";
-import './SendEmailForm.css';
+import './SendEmailSmsForms.css';
 import { Modal, Input, Tooltip, Icon, Result, Button } from 'antd';
 
 const { TextArea } = Input;
@@ -51,7 +51,7 @@ export default class SendEmailModal extends React.Component {
 
         setTimeout(()=> {
             this.props.goBack();
-        }, 6000)
+        }, 7000)
     };
 
     handleOk = e => {
