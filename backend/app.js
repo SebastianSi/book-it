@@ -1,8 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import setAppRoutes from './controllers/routes';
-import models from './models';
-import { connectDb, closeDbConnection } from './dao/dbConnection';
+import models, { connectDb, closeDbConnection } from './models';
 
 // Set up the express app
 const app = express();
