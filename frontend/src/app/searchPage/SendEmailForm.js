@@ -1,120 +1,108 @@
-import React from "react";
+import React, {useState} from "react";
 import './SendEmailSmsForms.css';
 import { Modal, Input, Tooltip, Icon, Result, Button } from 'antd';
 
 const { TextArea } = Input;
 
-export default class SendEmailModal extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            emailWasSent: false,
-            isLoading: false,
-            feedback: '',
-            name: '',
-            email: ''
-        };
-    }
+export default function SendEmailModal (props) {
 
-    componentDidMount() {
-        this.setState({
-            name: this.props.name,
-            email: this.props.email
-        })
-    }
+    const [emailWasSent, setEmailWasSent] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [feedback, setFeedback] = useState('');
 
-    sendFeedback (templateId, variables) {
+    const sendFeedback = (templateId, variables) => {
         window.emailjs.send(
             'contact_service', templateId,
             variables
-        ).then(res => {
-            this.setState({emailWasSent: true, isLoading: false});
+        ).then(() => {
+            setEmailWasSent(true);
+            setIsLoading(false);
             console.log('Email successfully sent!')
         })
             .catch(err => console.error('An error occured: ', err))
-    }
-
-
-    handleEmailBodyChange = e => {
-        this.setState({feedback: e.target.value})
     };
 
-    handleSubmit = e => {
+
+    const handleEmailBodyChange = e => {
+        setFeedback(e.target.value);
+    };
+
+    const handleSubmit = () => {
 
         const templateId = 'template_edDa8Nzs';
 
-        this.sendFeedback(templateId, {
-            message_html: this.state.feedback,
-            to_name: this.state.name,
-            user_email: this.state.email
+        sendFeedback(templateId, {
+            message_html: feedback,
+            to_name: props.name,
+            user_email: props.email
         });
 
         setTimeout(()=> {
-            this.props.goBack();
+            props.goBack();
         }, 7000)
     };
 
-    handleOk = e => {
-        this.setState({isLoading: true});
-        this.handleSubmit();
+    const handleOk = () => {
+        setIsLoading(true);
+        handleSubmit();
     };
 
-    handleCancel = e => {
-        this.props.goBack();
+    const handleCancel = () => {
+        props.goBack();
     };
 
-    render() {
-        return (
-            <>
-                <Modal
-                    title={`Contact ${this.state.name} via email`}
-                    visible={true}
-                    onCancel={this.handleCancel}
-                    cancelButtonProps={{ disabled: false }}
-                    footer={[
-                        <Button key="back" onClick={this.handleCancel}>
-                            Return
-                        </Button>,
-                        <Button
-                            disabled={!this.state.feedback.length}
-                            key="submit" type="primary"
-                            loading={this.state.isLoading}
-                            onClick={this.handleOk}
-                        >
-                            Send email
-                        </Button>,
-                    ]}
-                >
-                    {this.state.emailWasSent ?
-                        <Result
-                            status="success"
-                            title="Email Sent!"
-                            subTitle="You will now be redirected to the trainer details."
-                        />
-                        :
-                        <div style={{height: '20vh'}}>
-                            <p>
-                                <span style={{marginRight: 15}}>
-                                    Your message below:
-                                </span>
+
+    return (
+        <>
+            <Modal
+                title={`Contact ${props.name} via email`}
+                visible={true}
+                onCancel={handleCancel}
+                cancelButtonProps={{ disabled: false }}
+                footer={[
+                    <Button key="back" onClick={handleCancel}>
+                        Return
+                    </Button>,
+                    <Button
+                        disabled={!feedback.length}
+                        key="submit" type="primary"
+                        loading={isLoading}
+                        onClick={handleOk}
+                    >
+                        Send email
+                    </Button>,
+                ]}
+            >
+                {emailWasSent ?
+                    <Result
+                        status="success"
+                        title="Email Sent!"
+                        subTitle="You will now be redirected to the trainer details."
+                    />
+                    :
+                    <div style={{height: '20vh'}}>
+                        <p>
+                            <span style={{marginRight: 15}}>
+                                Your message below:
+                            </span>
                             <Tooltip
                                 title="Note: we already fill the email subject so the
-                                trainer knows it's through our platform">
+                            trainer knows it's through our platform">
                                 <Icon type="info-circle" style={{ color: 'rgba(0,0,0,.45)' }} />
                             </Tooltip>
-                            </p>
+                        </p>
 
                         <TextArea
                             style={{maxHeight: 100}}
                             allowClear
-                            onChange={this.handleEmailBodyChange}
-                            value={this.state.feedback}
+                            onChange={handleEmailBodyChange}
+                            // value={feedback}
                             rows={5}
                         />
-                        </div>
-                    }
-                </Modal>
-            </>
-        )
-    }
+                    </div>
+                }
+            </Modal>
+        </>
+    )
+
 }
